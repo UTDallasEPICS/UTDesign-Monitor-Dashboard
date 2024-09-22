@@ -15,6 +15,7 @@
     "prisma": "^5.19.1",
     "pug": "^3.0.3",
     "sqlite3": "^5.1.7",
+    "tailwind": "^4.0.0",
     "vue": "latest",
     "vue-router": "latest"
   },
