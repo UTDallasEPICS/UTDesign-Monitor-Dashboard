@@ -12,3 +12,37 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  cuid       String      @id @default(cuid())
+  email      String      @unique
+  name       String      @default("")
+  user_role  String      @default("user")
+  dashboards Dashboard[]
+}
+
+model Dashboard {
+  cuid     String   @id @default(cuid())
+  name     String   @default("")
+  owner    User     @relation(fields: [userCuid], references: [cuid])
+  slides   Slide[]
+  userCuid String
+  Device   Device[]
+}
+
+model Slide {
+  cuid          String    @id @default(cuid())
+  index         Int       @default(0)
+  dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
+  image         String    @default("") // The Strings are going to be URL's
+  video         String    @default("")
+  website       String    @default("")
+  dashboardCuid String
+}
+
+model Device {
+  cuid          String    @id @default(cuid())
+  name          String    @default("Unnamed Device")
+  dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
+  dashboardCuid String
+}

@@ -4,7 +4,7 @@
 </script>
 
 <template lang="pug">
-div.mx-auto.mt-7.absolute
+div.mx-auto.mt-20.absolute
   div.mx-auto.gap-2
     button
       NuxtLink(to="/") Home
@@ -18,3 +18,6 @@ div.mx-auto.mt-7.absolute
       NuxtLink(to="/admin") Admin
 NuxtPage
 </template>
+
+
+

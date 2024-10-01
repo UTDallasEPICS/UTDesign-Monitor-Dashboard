@@ -19,3 +19,4 @@ div.mx-auto.mt-7.absolute
 NuxtPage
 </template>
     
+
