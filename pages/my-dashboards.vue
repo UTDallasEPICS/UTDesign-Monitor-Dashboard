@@ -35,5 +35,5 @@ const addDashboard = () => {
                         span Delete
     
             div.mt-8.flex.justify-between
-                button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Device
+                button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
 </template>
