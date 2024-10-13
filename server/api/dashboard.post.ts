@@ -1,12 +1,15 @@
 import { PrismaClient } from "@prisma/client"
+import type { Dashboard } from "@/types.d.ts"
+
+// function: POST
 
 export default defineEventHandler(async event => {
     const runtime = useRuntimeConfig()
     const body = await readBody(event)
     const replaced_image_cuid = body.replacedImage.cuid
-    if(body.imageUploaded.url != body.replacedImage.url && body.replacedImage.url !== ""){
+	// TODO: The User that called this function should have their user object and user cuid entered into the Dashboard
     try {
-	const queryRes = await event.context.client.family.create({
+	const queryRes = await event.context.create({
 	    data: {
 		name: name,
 		owner: {
@@ -22,8 +25,6 @@ export default defineEventHandler(async event => {
     catch (e) {
       console.log(e)
     }
-    }
     return false
-   
 })
 
