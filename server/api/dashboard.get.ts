@@ -23,7 +23,7 @@ export default defineEventHandler(async event => {
         name: true,
         slides: true,
         owner: true,
-        userCuid: true,
+	userCuid: true,
         Device: true
 		  }
 		});
