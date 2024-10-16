@@ -4,3 +4,4 @@ export default {
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss']
 }
+
