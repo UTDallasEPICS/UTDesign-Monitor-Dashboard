@@ -6,15 +6,15 @@
 <template lang="pug">
 div.mx-auto.mt-7.absolute
   div.mx-auto.gap-2
-    button
+    button.bg-gray-200.px-4.py-2
         NuxtLink(to="/") Home
-    button 
+    button.bg-gray-200.px-4.py-2
         NuxtLink(to="/current-users") Current Users
-    button
+    button.bg-gray-200.px-4.py-2
         NuxtLink(to="/new-user") New User
-    button
+    button.bg-gray-200.px-4.py-2
         NuxtLink(to="/add-admin") Add Admin
-    button
+    button.bg-gray-200.px-4.py-2
         NuxtLink(to="/remove-dashboard") Remove Shared Dashboards
 NuxtPage
 </template>
