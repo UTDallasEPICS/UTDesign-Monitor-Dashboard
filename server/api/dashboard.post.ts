@@ -1,30 +1,28 @@
 import { PrismaClient } from "@prisma/client"
 import type { Dashboard } from "@/types.d.ts"
 
+const prisma = new PrismaClient()
+
 // function: POST
 
 export default defineEventHandler(async event => {
     const runtime = useRuntimeConfig()
     const body = await readBody(event)
-    const replaced_image_cuid = body.replacedImage.cuid
+    console.log(body);
 	// TODO: The User that called this function should have their user object and user cuid entered into the Dashboard
-    try {
-	const queryRes = await event.context.create({
+	const queryRes = await event.context.prisma.dashboard.create({
 	    data: {
-		name: name,
-		owner: {
+		name: name, // todo: uncomment this
+		/* owner: {
 			connect: { cuid: event.context.user.cuid }
-		    },
-		cuid: undefined,
+		    },*/
+		// cuid: undefined
 		
 	    }
 	}
 	) 
 	return queryRes
-	}
-    catch (e) {
-      console.log(e)
-    }
-    return false
-})
+	})
+ 
+
 

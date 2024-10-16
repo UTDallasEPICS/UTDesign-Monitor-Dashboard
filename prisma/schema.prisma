@@ -22,7 +22,7 @@ model User {
 }
 
 model Dashboard {
-  dash_cuid     String   @id @default(cuid())
+  cuid     String   @id @default(cuid())
   name     String   @default("")
   owner    User     @relation(fields: [userCuid], references: [cuid])
   slides   Slide[]
@@ -33,7 +33,7 @@ model Dashboard {
 model Slide {
   cuid          String    @id @default(cuid())
   index         Int       @default(0)
-  dashboard     Dashboard @relation(fields: [dashboardCuid], references: [dash_cuid])
+  dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
   image         String    @default("") // The Strings are going to be URL's
   video         String    @default("")
   website       String    @default("")
@@ -43,6 +43,6 @@ model Slide {
 model Device {
   cuid          String    @id @default(cuid())
   name          String    @default("Unnamed Device")
-  dashboard     Dashboard @relation(fields: [dashboardCuid], references: [dash_cuid])
+  dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
   dashboardCuid String
 }
