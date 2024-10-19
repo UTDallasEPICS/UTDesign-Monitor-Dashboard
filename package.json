@@ -12,9 +12,12 @@
   "dependencies": {
     "@prisma/nuxt": "^0.0.35",
     "cookie": "^1.0.1",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "nuxt": "^3.13.2",
+    "pnpm": "^9.12.2",
     "prisma": "^5.19.1",
     "pug": "^3.0.3",
     "sqlite3": "^5.1.7",
