@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client"
 const client = new PrismaClient()
 
 const runtime = useRuntimeConfig()
+// TODO: FINISH THIS
 
 export default defineEventHandler(async event => {
     event.context.client = client
