@@ -26,21 +26,7 @@ export default defineEventHandler(async event => {
                 where: { email: claims.email }
               ,
               include: {
-                Pages: {
-                  select: {
-                    cuid: true
-                  }
-                }, Family: {
-                  select: {
-                    cuid: true,
-                    stripe_account_id: true,
-                    Pages: { select: {
-                      cuid: true,
-                      status: true
-                    }
-                  }
-                }
-                }
+                
               }
               })
               if(!event.context.user) {
