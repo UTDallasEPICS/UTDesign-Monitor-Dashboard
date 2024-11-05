@@ -31,7 +31,6 @@ export default defineEventHandler(async event => {
                 console.log("you're not in the database, get invited by tim givens")
                 return await sendRedirect(event, logoutRedirectUrl(mdtoken)) // todo: add error message after failed log in attempt
               }
-              console.log("logged in"); // this gets called a lot of times???
               setCookie(event, 'mduser', JSON.stringify(event.context.user))
             }
             catch (e) {
