@@ -10,8 +10,10 @@
         button.bg-gray-200.px-4.py-2 
           NuxtLink(to="/shared-dashboards") Shared Dashboards
         button.bg-gray-200.px-4.py-2 
-          NuxtLink(to="/new-dashboard") New Dashboard
+          NuxtLink(to="/EditDashboard/0") New Dashboard
         button.bg-gray-200.px-4.py-2
           NuxtLink(to="/admin") Admin
+        button.bg-gray-200.px-4.py-2
+          NuxtLink(to="/ball") ball
       NuxtPage
     </template>

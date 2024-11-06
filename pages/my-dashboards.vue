@@ -56,7 +56,7 @@ const deleteSelectedDashboards = () => {
   
             div.mt-8.flex.justify-between
                 button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
-                    NuxtLink(to="/new-dashboard") 
+                    NuxtLink(to="/EditDashboard/0") 
                 button.bg-red-200.px-4.py-2.rounded(@click="deleteSelectedDashboards") Delete Selected
 
                 
