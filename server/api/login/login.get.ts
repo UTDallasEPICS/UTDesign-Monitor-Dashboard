@@ -1,4 +1,4 @@
-import { loginRedirectUrl } from "./auth0"
+import { loginRedirectUrl } from "../login/auth0"
 
 export default defineEventHandler((event) => {
     const config = useRuntimeConfig()

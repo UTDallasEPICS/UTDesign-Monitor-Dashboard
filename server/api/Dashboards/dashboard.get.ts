@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import {loginRedirectUrl} from "./auth0"
+import {loginRedirectUrl} from "../login/auth0"
 
 export default defineEventHandler(async event => { 
     const { cuid } = getQuery(event) // todo: figure out exactly why this works; is it looking up the cuid?

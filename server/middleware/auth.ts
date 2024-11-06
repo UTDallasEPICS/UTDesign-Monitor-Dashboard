@@ -1,4 +1,4 @@
-import { loginRedirectUrl, logoutRedirectUrl } from "../api/auth0"
+import { loginRedirectUrl, logoutRedirectUrl } from "../api/login/auth0"
 import jwt from "jsonwebtoken"
 import fs from "fs"
 import { PrismaClient } from "@prisma/client"
