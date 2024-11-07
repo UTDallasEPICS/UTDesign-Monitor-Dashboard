@@ -1,25 +1,15 @@
-
-
-
-import { PrismaClient } from "@prisma/client"
+import { Dashboard, PrismaClient } from "@prisma/client"
 import { loginRedirectUrl } from "../login/auth0"
+const prisma = new PrismaClient();
 
 export default defineEventHandler(async event => {
+    const { dashboard } = getQuery(event)
             //get
-            const slides = await event.context.client.device.findUnique ({
-                select: {
-                    index: true,
-                    name: true,
-                    cuid: true,
+            const queryRes = await event.context.client.Slide.findMany ({
+                where: {cuid: dashboard as string},
+                include: {
                     dashboard: true,
-                    dashboardCuid: true,
-                    image: true,
-                    video: true,
-                    website: true
                 }
-
             });
-            return slides;
-
-
-})
+            return queryRes;
+        })
