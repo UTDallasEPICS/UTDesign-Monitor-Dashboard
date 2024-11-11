@@ -1,6 +1,5 @@
 import { Dashboard, PrismaClient } from "@prisma/client"
 import { loginRedirectUrl } from "../login/auth0"
-const prisma = new PrismaClient();
 
 export default defineEventHandler(async event => {
     const { dashboard } = getQuery(event)
