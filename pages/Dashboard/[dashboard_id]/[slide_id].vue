@@ -36,7 +36,7 @@ function updateVideoLink() {
     </div>
 
     <div class="relative flex items-center justify-center h-screen overflow-hidden">
-      <video autoplay loop muted class="absolute z-10 w-auto min-w-full min-h-full max-w-none">
+      <video :key="videoLink" autoplay loop muted class="absolute z-10 w-auto min-w-full min-h-full max-w-none">
         <source :src="videoLink" type="video/mp4"/>
       </video>
     </div>
