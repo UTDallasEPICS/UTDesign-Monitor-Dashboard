@@ -10,11 +10,7 @@ export default defineEventHandler(async event => {
 
     try{
 
-        const queryRes1 = await event.context.client.dashboard.delete({
-            where: {cuid: body.dashboardCuid }
-        })
-
-        const queryRes2 =  await event.context.client.device.delete({
+        const queryRes =  await event.context.client.device.delete({
             where: { cuid: body.cuid as string }
         })
 
