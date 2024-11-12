@@ -6,8 +6,8 @@ const runtime = useRuntimeConfig()
 export default eventHandler(async event=> {
     const body = await readBody(event)
     try {
-    const dashboard = await event.context.client.Dashboard.findFirst({
-        where: { cuid: event.context.Dashboard?.cuid as string}
+    const dashboard = await event.context.client.dashboard.findFirst({
+        where: { cuid: event.context.dashboard?.cuid as string}
     })
 
     const queryRes = await event.context.client.device.create({

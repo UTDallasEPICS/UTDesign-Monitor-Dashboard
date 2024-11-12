@@ -4,14 +4,15 @@ import {loginRedirectUrl} from "../login/auth0"
 const runtime = useRuntimeConfig()
 
 export default eventHandler(async event=> {
-    const {cuid, name, dashboard, dashboardCuid, ... data} = await readBody(event)
+    const {cuid, name, dashboard, dashboardCuid } = await readBody(event)
 
 try {
     const updateDevice = await event.context.client.device.update({
         where: { cuid: cuid },
 
         data: {
-            ...data
+            dashboardCuid: dashboardCuid,
+            dashboard: dashboard
         }
     })
 
