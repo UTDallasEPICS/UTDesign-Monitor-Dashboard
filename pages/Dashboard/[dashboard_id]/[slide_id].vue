@@ -2,22 +2,17 @@
 import { ref } from 'vue'
 
 const inputImageUrl = ref('') 
-const imageUrl = ref('https://example.com/image.jpg')  // Default image URL
+const imageUrl = ref('https://example.com/image.jpg')  //  image URL
 
 const inputVideoUrl = ref('') 
-const videoLink = ref('https://www.youtube.com/embed/wpYwBQAOq58')  
+const videoLink = ref('https://example.com/sample-video.mp4')  //  video URL
 
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value
 }
 
-function updateVideoUrl() {
-  const videoIdMatch = inputVideoUrl.value.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/)
-  if (videoIdMatch) {
-    videoLink.value = `https://www.youtube.com/embed/${videoIdMatch[1]}`
-  } else {
-    alert("Please enter a valid YouTube URL")
-  }
+function updateVideoLink() {
+  videoLink.value = inputVideoUrl.value
 }
 </script>
 
@@ -35,14 +30,21 @@ function updateVideoUrl() {
     </div>
 
     <div style="margin-top: 20px;">
-      <label for="video-url">Enter YouTube Video URL:</label>
-      <input id="video-url" type="text" v-model="inputVideoUrl" placeholder="Enter YouTube video URL" />
-      <button @click="updateVideoUrl">Submit</button>
+      <label for="video-url">Enter Video URL:</label>
+      <input id="video-url" type="text" v-model="inputVideoUrl" placeholder="Enter video URL" />
+      <button @click="updateVideoLink">Submit</button>
+    </div>
 
-      <div style="margin-top: 20px;">
-        <h2>Video Preview</h2>
-        <iframe :src="videoLink" width="800" height="450" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
+    <div class="relative flex items-center justify-center h-screen overflow-hidden">
+      <video autoplay loop muted class="absolute z-10 w-auto min-w-full min-h-full max-w-none">
+        <source :src="videoLink" type="video/mp4"/>
+      </video>
     </div>
   </div>
 </template>
+
+<style>
+body {
+  background-color: white;
+}
+</style>
