@@ -1,5 +1,7 @@
 <script setup lang="ts">
+// dashboard id set to probably the cuid fetched from prisma (database)
 
+// 
 
 </script>
 
