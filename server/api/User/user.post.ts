@@ -13,7 +13,7 @@ export default defineEventHandler(async event => {
         try{
             const queryRes = await event.context.client.user.create({
                 data: {
-                    ...body, cuid: undefined
+                    user_role: body.user_role, cuid: undefined
                 }
             })
             return queryRes
