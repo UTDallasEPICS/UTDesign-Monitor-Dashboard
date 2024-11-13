@@ -9,7 +9,7 @@ const runtime = useRuntimeConfig()
 export default defineEventHandler(async event => {
     event.context.client = client
     const mdtoken = getCookie(event, "mdtoken") || ""
-    if (!mdtoken && !(event.node.req.url?.includes('/api/callback') || event.node.req.url?.includes("/"))) {
+    if (!mdtoken && !(event.node.req.url?.includes('/api/login/callback') || event.node.req.url?.includes("/"))) {
         await sendRedirect(event, loginRedirectUrl()); 
       } else {
         // theoretically logged in here
