@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import {loginRedirectUrl} from "./auth0"
+import {loginRedirectUrl} from "../login/auth0"
 
 
 const runtime = useRuntimeConfig()
