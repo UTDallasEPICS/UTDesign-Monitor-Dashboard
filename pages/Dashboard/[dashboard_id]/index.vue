@@ -18,8 +18,6 @@ div.mx-auto.mt-20.absolute
       NuxtLink(to="/new-dashboard") new dashboard
     button
       NuxtLink(to="/admin") Admin
-    button.bg-gray-200.px-4.py-2
-      NuxtLink(to="/ball") ball
 NuxtPage
 </template>
 

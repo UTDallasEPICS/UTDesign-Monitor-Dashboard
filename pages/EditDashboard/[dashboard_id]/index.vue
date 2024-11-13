@@ -2,6 +2,12 @@
 import { ref } from 'vue';
 
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
+const showDropdown = ref(false); // Toggle for dropdown visibility
+
+// Function to toggle the dropdown visibility
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value;
+}
 </script>
 
 <template lang="pug">
@@ -13,9 +19,15 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
         
         // Other buttons below
         div.buttons.flex.justify-between.mt-8
-            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 Post
-            NuxtLink(to="/EditDashboard/0/0").bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 Edit
-            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Extra
+            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 Edit
+            div.relative.mr-4
+                button(@click="toggleDropdown" class="bg-gray-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center") Other
+                // Dropdown Menu
+                div(v-if="showDropdown" class="absolute bg-white border border-gray-300 rounded-lg mt-2 shadow-lg w-full")
+                    NuxtLink(to="/EditDashboard/0/1" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Post to Display
+                    NuxtLink(to="/EditDashboard/0/2" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Show preview
+                    NuxtLink(to="/EditDashboard/0/3" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Option 3
+            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Delete
 </template>
 
 <style scoped>
@@ -40,5 +52,20 @@ button {
 
 button:hover {
     background-color: #e2e8f0; /* Lighter shade on hover */
+}
+
+/* Dropdown styling */
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+    z-index: 10; /* Ensures the dropdown is above other elements */
+}
+
+/* Adding margin to the right of the dropdown container */
+.mr-4 {
+    margin-right: 1rem; /* Adjust as needed */
 }
 </style>
