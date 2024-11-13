@@ -23,7 +23,7 @@ export interface Slide {
   video: string;
   website: string;
   dashboardCuid: string;
-
+  duration: number;
 }
 
 export interface Device {
