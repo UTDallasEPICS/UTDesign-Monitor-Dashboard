@@ -5,23 +5,22 @@ import { PrismaClient } from "@prisma/client"
 const client = new PrismaClient()
 
 const runtime = useRuntimeConfig()
-// TODO: FINISH THIS
 
 export default defineEventHandler(async event => {
     event.context.client = client
     const mdtoken = getCookie(event, "mdtoken") || ""
     if (!mdtoken && !(event.node.req.url?.includes('/api/callback') || event.node.req.url?.includes("/"))) {
-        await sendRedirect(event, loginRedirectUrl());
+        await sendRedirect(event, loginRedirectUrl()); 
       } else {
-        // theoretically logged in
+        // theoretically logged in here
         if (mdtoken) {
           try {
             const claims = jwt.verify(
               mdtoken, 
               fs.readFileSync(process.cwd()+"/cert-dev.pem")
             )
-            event.context.claims = claims
-            event.context.user = await event.context.client.user.findFirst(
+            event.context.claims = claims 
+            event.context.user = await event.context.client.user.findFirst( // the user of a given event is found here
               {
                 where: { email: claims.email }
               })
@@ -31,7 +30,6 @@ export default defineEventHandler(async event => {
                 console.log("you're not in the database, get invited by tim givens")
                 return await sendRedirect(event, logoutRedirectUrl(mdtoken)) // todo: add error message after failed log in attempt
               }
-              console.log("logged in"); // this gets called a lot of times???
               setCookie(event, 'mduser', JSON.stringify(event.context.user))
             }
             catch (e) {

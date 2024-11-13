@@ -1,3 +1,9 @@
+# How the Raspberry Pi's work with our website
+```mermaid
+graph TD;
+  A["Raspberry Pi starts up"] --> B["script runs"] --> C["goes to its respective page on our website"] --> D["Pi is redirected to present the Dashboard stored in our website"] --> E["Pi is turned off and on again every so often"] --> A
+```
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
