@@ -4,7 +4,6 @@ import { ref } from 'vue';
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
 const showDropdown = ref(false); // Toggle for dropdown visibility
 
-// Function to toggle the dropdown visibility
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
@@ -19,25 +18,23 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
         
         // Other buttons below
         div.buttons.flex.justify-between.mt-8
-            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 Edit
+            NuxtLink(to="/EditDashboard/0/1" class="bg-purple-200 px-4 py-4 rounded-lg text-xl font-semibold w-full text-center mr-4") Edit Dashboard
             div.relative.mr-4
                 button(@click="toggleDropdown" class="bg-gray-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center") Other
                 // Dropdown Menu
                 div(v-if="showDropdown" class="absolute bg-white border border-gray-300 rounded-lg mt-2 shadow-lg w-full")
                     NuxtLink(to="/EditDashboard/0/1" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Post to Display
-                    NuxtLink(to="/EditDashboard/0/2" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Show preview
+                    NuxtLink(to="/EditDashboard/0/2" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Show Preview
                     NuxtLink(to="/EditDashboard/0/3" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Option 3
             button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Delete
 </template>
 
 <style scoped>
-/* Larger slide button container */
 .slide-button-container {
-    height: 240px; /* Adjust as needed for a larger iframe preview */
+    height: 240px; 
     width: 100%;
 }
 
-/* iframe styling */
 iframe {
     width: 100%;
     height: 100%;
@@ -45,27 +42,24 @@ iframe {
     border-radius: 8px;
 }
 
-/* Button styling for smoother hover effect */
 button {
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #e2e8f0; /* Lighter shade on hover */
+    background-color: #e2e8f0;
 }
 
-/* Dropdown styling */
 .relative {
     position: relative;
 }
 
 .absolute {
     position: absolute;
-    z-index: 10; /* Ensures the dropdown is above other elements */
+    z-index: 10; 
 }
 
-/* Adding margin to the right of the dropdown container */
 .mr-4 {
-    margin-right: 1rem; /* Adjust as needed */
+    margin-right: 1rem; 
 }
 </style>
