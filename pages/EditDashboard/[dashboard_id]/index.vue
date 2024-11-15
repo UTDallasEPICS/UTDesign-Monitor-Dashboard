@@ -18,7 +18,7 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
         
         // Other buttons below
         div.buttons.flex.justify-between.mt-8
-            NuxtLink(to="/EditDashboard/0/1" class="bg-purple-200 px-4 py-4 rounded-lg text-xl font-semibold w-full text-center mr-4") Edit Dashboard
+            NuxtLink(to="/EditDashboard/0/1" class="bg-purple-200 px-4 py-4 rounded-lg text-xl font-semibold w-full text-center mr-4") Edit Slides
             div.relative.mr-4
                 button(@click="toggleDropdown" class="bg-gray-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center") Other
                 // Dropdown Menu
