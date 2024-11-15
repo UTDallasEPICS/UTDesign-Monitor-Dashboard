@@ -13,4 +13,5 @@ div.bg-purple-200.min-h-screen.w-screen.flex(class="flex flex-col space-y-4")
   MDHeader
   div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.flex
     label(for="image-url" class="block text-lg font-semibold mb-2" v-if="isUser") Welcome back!
+    label(for="image-url" class="block text-lg font-semibold mb-2" v-if="!isUser") Please Sign In. If you don't have an account, you must be invited by Tim Givens.
 </template>
