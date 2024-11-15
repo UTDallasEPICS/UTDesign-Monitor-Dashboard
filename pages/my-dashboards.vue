@@ -34,7 +34,9 @@ const deleteSelectedDashboards = () => {
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
+div.bg-purple-200.min-h-screen.w-screen.flex(class="flex flex-col space-y-4")
+  MDHeader
+  div.min-h-screen.w-screen.justify-center.items-center(class="flex flex-col space-y-4")
     div.bg-purple-200.p-10.bg-white.border.rounded-md.w-full.max-w-2xl
         div.flex.justify-between.mb-4
             button.bg-gray-200.px-4.py-2.rounded 
