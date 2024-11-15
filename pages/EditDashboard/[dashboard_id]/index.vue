@@ -10,8 +10,9 @@ function toggleDropdown() {
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
-    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl
+div.bg-purple-200.min-h-screen.w-screen.flex(class="flex flex-col space-y-4")
+    MDHeader
+    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.justify-center.items-center
         // Slide button (large and centered, now showing link preview)
         div.slide-button-container.flex.justify-center.items-center.mb-10
             iframe(:src="previewUrl" class="w-full h-full rounded-lg" allow="fullscreen" frameborder="0")
