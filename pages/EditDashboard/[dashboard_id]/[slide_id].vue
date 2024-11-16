@@ -17,8 +17,9 @@ function updateVideoLink() {
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-full.flex.justify-center.items-center
-  div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl
+div.bg-purple-200.min-h-screen.w-full.flex(class="flex flex-col space-y-4")
+  MDHeader
+  div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.justify-center.items-center(class="flex flex-col space-y-4")
     div.mb-8
       label(for="image-url" class="block text-lg font-semibold mb-2") Enter Image URL:
       input#image-url(type="text" v-model="inputImageUrl" placeholder="Enter image URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
