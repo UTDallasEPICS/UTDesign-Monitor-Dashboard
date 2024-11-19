@@ -16,9 +16,9 @@ div.mt-7.gap-2.border-4.bg-fuchsia-100.border-gray-300.rounded-xl.shadow-2xl.fle
   button.px-4.py-2.shadow-2xl.bg-green-100.rounded-lg(v-if="!isLoggedIn")
     a(href="/api/login/login") Login
   // If you're wondering about the extra (), it's because the Tailwind bg wasn't working properly without them
-  button.px-4.py-2.shadow-2xl.bg-fuchsia-200.rounded-lg() 
+  button.px-4.py-2.shadow-2xl.bg-fuchsia-200.rounded-lg(v-if="isLoggedIn") 
     NuxtLink(to="/my-dashboards") My Dashboards
-  button.px-4.py-2.shadow-2xl.bg-fuchsia-200.rounded-lg()
+  button.px-4.py-2.shadow-2xl.bg-fuchsia-200.rounded-lg(v-if="isLoggedIn")
     NuxtLink(to="/EditDashboard/0") New Dashboard
   button.px-4.py-2.shadow-2xl.bg-red-200.rounded-lg(v-if="isAdmin")
     NuxtLink(to="/admin") Admin

@@ -34,9 +34,9 @@ const deleteSelectedDashboards = () => {
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-screen.flex(class="flex flex-col space-y-4")
+MDBody
   MDHeader
-  div.min-h-screen.w-screen.justify-center.items-center(class="flex flex-col space-y-4")
+  div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
     div.bg-purple-200.p-10.bg-white.border.rounded-md.w-full.max-w-2xl
         div.flex.justify-between.mb-4
             button.bg-gray-200.px-4.py-2.rounded 
@@ -46,10 +46,10 @@ div.bg-purple-200.min-h-screen.w-screen.flex(class="flex flex-col space-y-4")
         div.grid.grid-cols-1.gap-6
             div(v-if="dashboards.length === 0") No dashboards added yet.
 
-            div(v-for="(dashboard, index) in dashboards" :key="index" class="border p-6 bg-white rounded shadow-md w-full")
+            div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
                 div.font-semibold {{ dashboard.name }}
                 div 
-                    a(:href="dashboard.url" class="text-blue-500") {{ dashboard.url }}
+                    a.text-blue-500(:href="dashboard.url") {{ dashboard.url }}
                 div.mt-2 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'
