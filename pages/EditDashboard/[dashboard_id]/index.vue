@@ -11,6 +11,7 @@ function toggleDropdown() {
 </script>
 
 <template lang="pug">
+MDHeader
 div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl
         // Slide button (large and centered, now showing link preview)
@@ -19,14 +20,15 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
         
         // Other buttons below
         div.buttons.flex.justify-between.mt-8
-            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 Edit
+            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 
+                NuxtLink(to="/EditDashboard/0/0") Edit
             div.relative.mr-4
                 button(@click="toggleDropdown" class="bg-gray-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center") Other
                 // Dropdown Menu
                 div(v-if="showDropdown" class="absolute bg-white border border-gray-300 rounded-lg mt-2 shadow-lg w-full")
-                    NuxtLink(to="/EditDashboard/0/1" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Post to Display
-                    NuxtLink(to="/EditDashboard/0/2" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Show preview
-                    NuxtLink(to="/EditDashboard/0/3" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Option 3
+                    NuxtLink(to="/EditDashboard/0/post" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Post to Display
+                    NuxtLink(to="/EditDashboard/0/preview" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Show preview
+                    //NuxtLink(to="/EditDashboard/0/3" class="block px-4 py-2 text-gray-700 hover:bg-gray-100") Option 3
             button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Delete
 </template>
 
