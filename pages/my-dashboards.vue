@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Dashboard } from '@types.d.ts'
 
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])
@@ -24,18 +25,25 @@ dashboards.value.push({
     }
 
   }
+
+
+
 // Function to add a new dashboard row
-const addDashboard = () => {
+const addDashboard = async () => {
   const newIndex = dashboards.value.length + 1
   dashboards.value.push({
     name: `Dashboard ${newIndex}`,
     url: 'http://google.com',
     selected: false  // Add a 'selected' property to track deletion
   })
+  const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { //
+        method: 'POST', // recall that POST = CREATE in CRUD!
+        body: ({ name: `Dashboard ${newIndex}` })
+    })
 }
 
 // Function to delete selected dashboards with confirmation
-const deleteSelectedDashboards = () => {
+const deleteSelectedDashboards = async () => {
   const selectedCount = dashboards.value.filter(dashboard => dashboard.selected).length
 
   if (selectedCount === 0) {
@@ -47,7 +55,13 @@ const deleteSelectedDashboards = () => {
   const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is not reversable?`)
 
   if (confirmed) {
+    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { // TODO: Ask Allison during lab tomorrow!
+        method: 'DELETE', 
+        body: ({ cuid: dashboards.value.filter(dashboard => dashboard.selected) })
+    })
     dashboards.value = dashboards.value.filter(dashboard => !dashboard.selected)
+
+
   }
 }
 
@@ -69,7 +83,7 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
             div(v-for="(dashboard, index) in dashboards" :key="index" class="border p-6 bg-white rounded shadow-md w-full")
                 div.font-semibold {{ dashboard.name }}
                 div 
-                    a(:href="dashboard.url" class="text-blue-500") {{ dashboard.url }}
+                    NuxtLink(to="https://google.com" class="text-blue-500") {{ dashboard.url }}
                 div.mt-2 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'
