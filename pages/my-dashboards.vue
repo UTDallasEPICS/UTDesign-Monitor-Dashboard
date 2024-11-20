@@ -1,21 +1,45 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Dashboard } from '@types.d.ts'
 
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])
+  const getDashboards = async () => {
+    // fetch list of dashboards
+    const res = await $fetch("/api/Dashboard/dashboards")
+
+    // for each dashboard recived
+    //dashboard value push
+    for(let i=0; i<res.length; i++){
+      dashboards.value.push({
+      name: res[i].name,
+      url: res[i].url,
+      selected: false,  // Add a 'selected' property to track deletion
+      cuid: res[i].cuid
+  });
+    }
+
+  }
+
+
 
 // Function to add a new dashboard row
-const addDashboard = () => {
+const addDashboard = async () => {
   const newIndex = dashboards.value.length + 1
   dashboards.value.push({
     name: `Dashboard ${newIndex}`,
     url: 'http://google.com',
     selected: false  // Add a 'selected' property to track deletion
   })
+  const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { //
+        method: 'POST', // recall that POST = CREATE in CRUD!
+        body: ({ name: `Dashboard ${newIndex}` })
+    })
 }
 
 // Function to delete selected dashboards with confirmation
-const deleteSelectedDashboards = () => {
+const deleteSelectedDashboards = async () => {
+  const selectedDashboards = dashboards.value.filter(dashboard => dashboard.selected)
   const selectedCount = dashboards.value.filter(dashboard => dashboard.selected).length
 
   if (selectedCount === 0) {
@@ -27,10 +51,18 @@ const deleteSelectedDashboards = () => {
   const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is not reversable?`)
 
   if (confirmed) {
+    for (let i = 0; i < selectedCount; i++) {
+    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { // TODO: Ask Allison during lab tomorrow!
+        method: 'DELETE', 
+        body: ({ cuid: selectedDashboards[i].cuid })
+    })
     dashboards.value = dashboards.value.filter(dashboard => !dashboard.selected)
+    }
   }
 }
 
+//calling function
+getDashboards()
 </script>
 
 <template lang="pug">
@@ -50,6 +82,7 @@ MDBody
                 div.font-semibold {{ dashboard.name }}
                 div 
                     a.text-blue-500(:href="dashboard.url") {{ dashboard.url }}
+                    NuxtLink(to="https://google.com" class="text-blue-500") {{ dashboard.url }}
                 div.mt-2 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'
