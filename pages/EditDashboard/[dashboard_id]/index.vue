@@ -21,7 +21,8 @@ MDBody
         
         // Other buttons below
         div.buttons.flex.justify-between.mt-8
-            NuxtLink.bg-purple-200.px-4.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4(to="/EditDashboard/0/1") Edit Slides
+            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 
+                NuxtLink(to="/EditDashboard/0/0") Edit
             div.relative.mr-4
                 button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center(@click="toggleDropdown") Other
                 // Dropdown Menu

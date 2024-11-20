@@ -81,8 +81,8 @@ MDBody
             div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
                 div.font-semibold {{ dashboard.name }}
                 div 
-                    a.text-blue-500(:href="dashboard.url") {{ dashboard.url }}
-                    NuxtLink(to="https://google.com" class="text-blue-500") {{ dashboard.url }}
+                button.bg-gray-200.px-2.py-2.rounded 
+                    NuxtLink(to="/Dashboard/0") View
                 div.mt-2 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'
