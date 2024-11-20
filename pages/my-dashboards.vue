@@ -14,7 +14,8 @@ const dashboards = ref([])
       dashboards.value.push({
       name: res[i].name,
       url: res[i].url,
-      selected: false  // Add a 'selected' property to track deletion
+      selected: false,  // Add a 'selected' property to track deletion
+      cuid: res[i].cuid
   });
     }
 
@@ -38,6 +39,7 @@ const addDashboard = async () => {
 
 // Function to delete selected dashboards with confirmation
 const deleteSelectedDashboards = async () => {
+  const selectedDashboards = dashboards.value.filter(dashboard => dashboard.selected)
   const selectedCount = dashboards.value.filter(dashboard => dashboard.selected).length
 
   if (selectedCount === 0) {
@@ -49,13 +51,13 @@ const deleteSelectedDashboards = async () => {
   const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is not reversable?`)
 
   if (confirmed) {
+    for (let i = 0; i < selectedCount; i++) {
     const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { // TODO: Ask Allison during lab tomorrow!
         method: 'DELETE', 
-        body: ({ cuid: dashboards.value.filter(dashboard => dashboard.selected) })
+        body: ({ cuid: selectedDashboards[i].cuid })
     })
     dashboards.value = dashboards.value.filter(dashboard => !dashboard.selected)
-
-
+    }
   }
 }
 
