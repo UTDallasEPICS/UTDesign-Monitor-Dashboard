@@ -4,12 +4,6 @@ import type { Dashboard } from '@types.d.ts'
 
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])
-dashboards.value.push({
-    name: `guinea pig`,
-    url: 'http://google.com',
-    selected: false  // Add a 'selected' property to track deletion
-  });
-  
   const getDashboards = async () => {
     // fetch list of dashboards
     const res = await $fetch("/api/Dashboard/dashboards")
