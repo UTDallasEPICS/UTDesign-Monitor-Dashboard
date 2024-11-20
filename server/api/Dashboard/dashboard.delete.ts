@@ -9,7 +9,9 @@ export default defineEventHandler(async event => {
     const body = await readBody(event);
     try{
         const owner = await event.context.client.user.findUnique({
-            where: { dashboards: {
+            where: { 
+                cuid: event.context.user.cuid,
+                dashboards: {
                     some: {
                         cuid: body.cuid
                     } }

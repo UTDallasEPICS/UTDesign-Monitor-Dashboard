@@ -13,6 +13,7 @@ export default defineEventHandler(async event => {
         })
         const queryRes = await event.context.client.dashboard.create({
             data: {
+                name: body.name,
                 userCuid: owner.cuid
             }
         }) 
