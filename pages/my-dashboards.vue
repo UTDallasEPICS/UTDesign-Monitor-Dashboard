@@ -80,10 +80,13 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
                 div.font-semibold {{ dashboard.name }}
                 div 
                     NuxtLink(to="https://google.com" class="text-blue-500") {{ dashboard.url }}
-                div.mt-2 
+                div 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'
                     span Delete
+                div
+                  button.bg-cyan-100.px-4.py-2
+                    NuxtLink(to="/EditDashboard/0/1") Edit Dashboard
 
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
