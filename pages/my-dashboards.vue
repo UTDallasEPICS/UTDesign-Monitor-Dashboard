@@ -3,7 +3,27 @@ import { ref } from 'vue'
 
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])
+dashboards.value.push({
+    name: `guinea pig`,
+    url: 'http://google.com',
+    selected: false  // Add a 'selected' property to track deletion
+  });
+  
+  const getDashboards = async () => {
+    // fetch list of dashboards
+    const res = await $fetch("/api/Dashboard/dashboards")
 
+    // for each dashboard recived
+    //dashboard value push
+    for(let i=0; i<res.length; i++){
+      dashboards.value.push({
+      name: res[i].name,
+      url: res[i].url,
+      selected: false  // Add a 'selected' property to track deletion
+  });
+    }
+
+  }
 // Function to add a new dashboard row
 const addDashboard = () => {
   const newIndex = dashboards.value.length + 1
@@ -31,6 +51,8 @@ const deleteSelectedDashboards = () => {
   }
 }
 
+//calling function
+getDashboards()
 </script>
 
 <template lang="pug">
