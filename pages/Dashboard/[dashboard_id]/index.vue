@@ -19,7 +19,7 @@ function updateVideoUrl() {
 </script>
 
 <template lang="pug">
-div(class="flex flex-col space-y-4")
+MDBody
   MDHeader
   div(style="margin-top: 20px;")
     label(for="image-url") Enter Image URL:

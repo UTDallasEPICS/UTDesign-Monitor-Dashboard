@@ -8,8 +8,7 @@ import { loginRedirectUrl } from "../login/auth0"
 export default defineEventHandler(async event => {      
         //get
         const {cuid} = getQuery(event)
-            const devices = await event.context.client.device.findUnique ({
-                where: {cuid: cuid as string},
+            const devices = await event.context.client.device.findMany ({
                 include: { 
                     dashboard: true 
                 }
