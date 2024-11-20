@@ -15,5 +15,8 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
   router: {
     middleware: ['auth']
-  }
+  },
+  imports: {
+    autoImport: true,
+  },
 })

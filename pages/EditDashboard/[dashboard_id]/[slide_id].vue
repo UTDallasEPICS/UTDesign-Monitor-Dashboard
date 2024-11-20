@@ -17,20 +17,21 @@ function updateVideoLink() {
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-full.flex.justify-center.items-center
-  div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl
+MDBody
+  MDHeader
+  div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
     div.mb-8
-      label(for="image-url" class="block text-lg font-semibold mb-2") Enter Image URL:
-      input#image-url(type="text" v-model="inputImageUrl" placeholder="Enter image URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
-      button(@click="updateImageUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold") Submit
+      label.block.text-lg.font-semibold.mb-2(for="image-url") Enter Image URL:
+      input#image-url.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputImageUrl" placeholder="Enter image URL")
+      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateImageUrl") Submit
 
       div(style="margin-top: 20px;")
-        img(:src="imageUrl" alt="" class="w-48 h-auto rounded-lg border border-gray-300")
+        img.w-48.h-auto.rounded-lg.border.border-gray-300(:src="imageUrl" alt="")
 
     div.mt-8
-      label(for="video-url" class="block text-lg font-semibold mb-2") Enter Video URL:
-      input#video-url(type="text" v-model="inputVideoUrl" placeholder="Enter video URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
-      button(@click="updateVideoLink" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold") Submit
+      label.block.text-lg.font-semibold.mb-2(for="video-url") Enter Video URL:
+      input#video-url.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputVideoUrl" placeholder="Enter video URL")
+      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateVideoLink") Submit
 
     div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
       video.absolute.z-10.w-auto.min-w-full.min-h-full.max-w-none(autoplay loop muted :key="videoLink")
