@@ -4,7 +4,6 @@ import { ref } from 'vue';
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
 const showDropdown = ref(false); // Toggle for dropdown visibility
 
-// Function to toggle the dropdown visibility
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
@@ -33,13 +32,11 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
 </template>
 
 <style scoped>
-/* Larger slide button container */
 .slide-button-container {
-    height: 240px; /* Adjust as needed for a larger iframe preview */
+    height: 240px; 
     width: 100%;
 }
 
-/* iframe styling */
 iframe {
     width: 100%;
     height: 100%;
@@ -47,27 +44,24 @@ iframe {
     border-radius: 8px;
 }
 
-/* Button styling for smoother hover effect */
 button {
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #e2e8f0; /* Lighter shade on hover */
+    background-color: #e2e8f0;
 }
 
-/* Dropdown styling */
 .relative {
     position: relative;
 }
 
 .absolute {
     position: absolute;
-    z-index: 10; /* Ensures the dropdown is above other elements */
+    z-index: 10; 
 }
 
-/* Adding margin to the right of the dropdown container */
 .mr-4 {
-    margin-right: 1rem; /* Adjust as needed */
+    margin-right: 1rem; 
 }
 </style>

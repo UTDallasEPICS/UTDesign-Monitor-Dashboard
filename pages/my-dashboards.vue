@@ -83,6 +83,7 @@ div.bg-purple-200.min-h-screen.w-screen.flex.justify-center.items-center
                     a(:href="dashboard.url" class="text-blue-500") {{ dashboard.url }}
                 button.bg-gray-200.px-2.py-2.rounded 
                     NuxtLink(to="/Dashboard/0") View
+
                 div.mt-2 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'

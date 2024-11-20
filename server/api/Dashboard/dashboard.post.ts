@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import {loginRedirectUrl} from "./auth0"
+import {loginRedirectUrl} from "../login/auth0"
 
 
 const runtime = useRuntimeConfig()
@@ -13,6 +13,7 @@ export default defineEventHandler(async event => {
         })
         const queryRes = await event.context.client.dashboard.create({
             data: {
+                name: body.name,
                 userCuid: owner.cuid
             }
         }) 
