@@ -1,28 +1,19 @@
 <!-- index.vue -->
 <script setup lang="ts">
-
+import { ref } from 'vue'
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
 const showDropdown = ref(false); // Toggle for dropdown visibility
 
 // Function to toggle the dropdown visibility
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
+}
 
-import { ref } from 'vue'
-
-const inputImageUrl = ref('')
 const imageUrl = ref('https://example.com/image.jpg')  // image URL
 
-const inputVideoUrl = ref('')
+
 const videoUrl = ref('https://example.com/sample-video.mp4')  // video URL
 
-function updateImageUrl() {
-  imageUrl.value = inputImageUrl.value
-}
-
-function updateVideoUrl() {
-  videoUrl.value = inputVideoUrl.value
-}
 </script>
 
 <template lang="pug">
