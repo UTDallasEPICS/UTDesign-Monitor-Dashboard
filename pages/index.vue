@@ -17,7 +17,7 @@ MDBody
   MDHeader
   div.bg-purple-200.p-10.bg-white.border.rounded-md.justify-center.items-center.flex.flex-col.space-y-4
     label.block.text-lg.font-semibold.mb-2(v-if="isUser") Welcome back, {{ username }}!
-    label.block.text-lg.font-semibold.mb-2(v-if="!isUser") Please sign in. If you don't have an account, you must be invited by Tim Givens.
+    label.block.text-lg.font-semibold.mb-2(v-if="!isUser") Please sign in. If you don't have an account, you must be invited by UTDesign Staff.
     label.font-semibold(v-if="isUser") Your role is: {{ role }}
     label.font-semibold(v-if="isUser") Your email is: {{ email }}
 </template>
