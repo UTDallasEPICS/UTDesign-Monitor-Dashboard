@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Dashboard } from '@types.d.ts'
+import type { Dashboard } from '@/types.d.ts'
 
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import type { Slide } from '@/types.d.ts'
+import { useRoute } from 'vue-router'
 
 const inputImageUrl = ref('');
 const imageUrl = ref('https://example.com/image.jpg');
@@ -7,13 +9,31 @@ const imageUrl = ref('https://example.com/image.jpg');
 const inputVideoUrl = ref('');
 const videoLink = ref('https://example.com/sample-video.mp4');
 
+const router = useRoute();
+const id = computed(() => router.params.id);
+console.log(id)
+
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value;
+  console.log(id)
 }
 
 function updateVideoLink() {
   videoLink.value = inputVideoUrl.value;
+  console.log(id)
 }
+
+// const { slideData : slideDataDB } = async () => await useFetch<Slide>('/api/Slide/slide', {
+//     method: 'GET',
+//     query: { index: id }
+// })
+
+function updateDuration() {
+  
+}
+
+
+
 </script>
 
 <template lang="pug">
@@ -24,22 +44,24 @@ MDBody
       label.block.text-lg.font-semibold.mb-2(for="image-url") Enter Image URL:
       input#image-url.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputImageUrl" placeholder="Enter image URL")
       button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateImageUrl") Submit
-
-      div(style="margin-top: 20px;")
+      div.mt-5
         img.w-48.h-auto.rounded-lg.border.border-gray-300(:src="imageUrl" alt="")
-
-    div.mt-8
+    div.mb-8
       label.block.text-lg.font-semibold.mb-2(for="video-url") Enter Video URL:
       input#video-url.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputVideoUrl" placeholder="Enter video URL")
       button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateVideoLink") Submit
 
-    div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
-      video.absolute.z-10.w-auto.min-w-full.min-h-full.max-w-none(autoplay loop muted :key="videoLink")
-        source(:src="videoLink" type="video/mp4")
+      div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-5
+        video.absolute.z-10.w-auto.h-auto(autoplay loop muted :key="videoLink")
+          source(:src="videoLink" type="video/mp4")
+    div.mb-8
+      label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
+      input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder="Enter in seconds")
+      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
 </template>
 
 <style scoped>
-.bg-purple-200 {
+.bg-purple-200 { 
   background-color: #e9d5ff;
 }
 
