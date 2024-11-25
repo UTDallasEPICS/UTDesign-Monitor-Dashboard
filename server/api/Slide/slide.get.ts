@@ -13,7 +13,7 @@ export default defineEventHandler(async event => {
             const queryRes = await event.context.client.slide.findUnique({
                 where: { 
                     dashboardCuid: dashboard.cuid as string,
-                    index: index
+                    index: index as number
                 },
                 include: {
                     dashboard: true

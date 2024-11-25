@@ -9,27 +9,39 @@ const imageUrl = ref('https://example.com/image.jpg');
 const inputVideoUrl = ref('');
 const videoLink = ref('https://example.com/sample-video.mp4');
 
-const router = useRoute();
-const id = computed(() => router.params.id);
-console.log(id)
+const route = useRoute()
+
+// Full URL
+const fullURL = route.fullPath
+
+const regex = /^.*\/([a-zA-Z0-9]+)\/(\d+)$/ 
+const match = fullURL.match(regex)
+const dashboardCuid = match ? match[1] : null
+const slideIndex = parseInt(match ? (match[2]) : null, 10) // need to convert this to an Int so Prisma doesn't complain
+
+const { slideData } = await useFetch<Slide>('/api/Slide/slide', {
+    method: 'GET',
+    query: { 
+      dashboardCuid : dashboardCuid, 
+      index: slideIndex
+    }
+})
+
+async function updateSlide() {
+
+}
 
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value;
-  console.log(id)
 }
 
 function updateVideoLink() {
   videoLink.value = inputVideoUrl.value;
-  console.log(id)
 }
 
-// const { slideData : slideDataDB } = async () => await useFetch<Slide>('/api/Slide/slide', {
-//     method: 'GET',
-//     query: { index: id }
-// })
 
 function updateDuration() {
-  
+  updateSlide()
 }
 
 
