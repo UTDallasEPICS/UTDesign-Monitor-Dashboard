@@ -22,8 +22,6 @@ MDBody
   div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl
     div.slide-button-container.flex.justify-center.items-center.mb-10
       iframe(:src="previewUrl" class="w-full h-full rounded-lg" allow="fullscreen" frameborder="0")
-
-          // Other buttons below
     div.buttons.flex.justify-between.mt-8
         button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 
             NuxtLink(to="/EditDashboard/0") Edit
