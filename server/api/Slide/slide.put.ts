@@ -1,27 +1,13 @@
 import { PrismaClient } from "@prisma/client"
 
 export default defineEventHandler(async event => {
-    const { slideData, newURL, type }: { slideData: any, newURL: any, type: string } = await readBody(event)
-    if (type === "image") {
+    const { slideData, newURL, duration } : { slideData: any, newURL: any, type: string, duration: string } = await readBody(event)
+    console.log(slideData)
+    console.log(duration)
+    const durationAsInt = parseInt(duration, 10)
         const result = await event.context.client.slide.update({ 
-            where: { cuid: slideData.cuid } ,
-            data: { image: newURL }
-    });
-    return result;
-    }
-    else if (type === "video") {
-        const result = await event.context.client.slide.update({
-            where: { cuid: slideData.cuid} ,
-            data: { video: newURL }
+            where: { cuid: slideData.cuid },
+            data: { image: newURL, video: newURL, website: newURL, duration: durationAsInt }
         })
         return result;
-    }
-    else if (type === "website") {
-        const result = await event.context.client.slide.update({
-            where: { cuid: slideData.cuid} ,
-            data: { website: newURL }
-        })
-        return result;
-    }
-
 });

@@ -1,4 +1,4 @@
-import { Dashboard, PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import { loginRedirectUrl } from "../login/auth0"
 
 export default defineEventHandler(async event => {
