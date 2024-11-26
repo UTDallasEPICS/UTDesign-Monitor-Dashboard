@@ -17,9 +17,9 @@ const fullURL = route.fullPath
 const regex = /^.*\/([a-zA-Z0-9]+)\/(\d+)$/ 
 const match = fullURL.match(regex)
 const dashboardCuid = match ? match[1] : null
-const slideIndex = parseInt(match ? (match[2]) : null, 10) // need to convert this to an Int so Prisma doesn't complain
+const slideIndex = match ? match[2] : null // need to convert this to an Int so Prisma doesn't complain
 
-const { slideData } = await useFetch<Slide>('/api/Slide/slide', {
+const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', {
     method: 'GET',
     query: { 
       dashboardCuid : dashboardCuid, 
@@ -27,9 +27,9 @@ const { slideData } = await useFetch<Slide>('/api/Slide/slide', {
     }
 })
 
-async function updateSlide() {
+const inputDuration = ref('');
+const duration = ref(slideData.value.duration)
 
-}
 
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value;
@@ -40,11 +40,14 @@ function updateVideoLink() {
 }
 
 
-function updateDuration() {
-  updateSlide()
+async function updateDuration() {
+   duration.value = inputDuration.value
+   const saveSuccess  = await $fetch('/api/Slide/slide', { 
+         method: 'PUT', 
+         body: ({ slideData: slideData.value, duration: duration.value })
+     })
+  return saveSuccess
 }
-
-
 
 </script>
 
@@ -68,31 +71,11 @@ MDBody
           source(:src="videoLink" type="video/mp4")
     div.mb-8
       label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
-      input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder="Enter in seconds")
+      input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder=`Enter in seconds`)
       button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
 </template>
 
 <style scoped>
-.bg-purple-200 { 
-  background-color: #e9d5ff;
-}
-
-.bg-white {
-  background-color: #ffffff;
-}
-
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.border-gray-300 {
-  border-color: #d1d5db;
-}
-
 .rounded-xl {
   border-radius: 1rem;
 }
