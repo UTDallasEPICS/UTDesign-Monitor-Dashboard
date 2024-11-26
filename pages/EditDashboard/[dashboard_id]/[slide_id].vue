@@ -1,18 +1,43 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const selectedOption = ref('');
+
+// Image state
 const inputImageUrl = ref('');
 const imageUrl = ref('https://example.com/image.jpg');
 
+// Video state
 const inputVideoUrl = ref('');
 const videoLink = ref('https://example.com/sample-video.mp4');
+
+const isYouTube = ref(false);
+
+const inputWebsiteUrl = ref('');
+const websiteUrl = ref('https://example.com');
 
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value;
 }
 
+// Update video URL
 function updateVideoLink() {
-  videoLink.value = inputVideoUrl.value;
+  const youtubeMatch = inputVideoUrl.value.match(
+    /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w\-]{11})/
+  );
+
+  if (youtubeMatch) {
+    videoLink.value = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+    isYouTube.value = true;
+  } else {
+    videoLink.value = inputVideoUrl.value;
+    isYouTube.value = false;
+  }
+}
+
+// Update website URL
+function updateWebsiteUrl() {
+  websiteUrl.value = inputWebsiteUrl.value;
 }
 </script>
 
@@ -21,21 +46,42 @@ MDBody
   MDHeader
   div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
     div.mb-8
-      label.block.text-lg.font-semibold.mb-2(for="image-url") Enter Image URL:
-      input#image-url.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputImageUrl" placeholder="Enter image URL")
-      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateImageUrl") Submit
-
-      div(style="margin-top: 20px;")
-        img.w-48.h-auto.rounded-lg.border.border-gray-300(:src="imageUrl" alt="")
+      label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
+      select#select-option(v-model="selectedOption" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
+        option(value="") -- Select --
+        option(value="image") Image
+        option(value="video") Video
+        option(value="website") Website
 
     div.mt-8
-      label.block.text-lg.font-semibold.mb-2(for="video-url") Enter Video URL:
-      input#video-url.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputVideoUrl" placeholder="Enter video URL")
-      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateVideoLink") Submit
+      // Image Section
+      div(v-if="selectedOption === 'image'")
+        label(for="image-url" class="block text-lg font-semibold mb-2") Enter Image URL:
+        input#image-url(type="text" v-model="inputImageUrl" placeholder="Enter image URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
+        button(@click="updateImageUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold") Submit
 
-    div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
-      video.absolute.z-10.w-auto.min-w-full.min-h-full.max-w-none(autoplay loop muted :key="videoLink")
-        source(:src="videoLink" type="video/mp4")
+        div(style="margin-top: 20px;")
+          img(:src="imageUrl" alt="" class="w-48 h-auto rounded-lg border border-gray-300")
+
+      // Video Section
+      div(v-if="selectedOption === 'video'")
+        label(for="video-url" class="block text-lg font-semibold mb-2") Enter Video URL:
+        input#video-url(type="text" v-model="inputVideoUrl" placeholder="Enter video or YouTube URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
+        button(@click="updateVideoLink" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold") Submit
+
+        div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
+          iframe(v-if="isYouTube" :src="videoLink" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
+          video(v-else autoplay loop muted controls class="absolute z-10 w-auto min-w-full min-h-full max-w-none" :key="videoLink")
+            source(:src="videoLink" type="video/mp4")
+
+      // Website Section
+      div(v-if="selectedOption === 'website'")
+        label(for="website-url" class="block text-lg font-semibold mb-2") Enter Website URL:
+        input#website-url(type="text" v-model="inputWebsiteUrl" placeholder="Enter website URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
+        button(@click="updateWebsiteUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold") Submit
+
+        div(style="margin-top: 20px; height: 300px;")
+          iframe(v-if="websiteUrl" :src="websiteUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
 </template>
 
 <style scoped>
@@ -103,5 +149,10 @@ button:hover {
 
 body {
   overflow-x: hidden;
+}
+
+iframe {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
 }
 </style>
