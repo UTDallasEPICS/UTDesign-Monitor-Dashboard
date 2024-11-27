@@ -1,4 +1,3 @@
-<!-- index.vue -->
 <script setup lang="ts">
 import { ref } from 'vue'
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
@@ -8,12 +7,6 @@ const showDropdown = ref(false); // Toggle for dropdown visibility
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
-
-const imageUrl = ref('https://example.com/image.jpg')  // image URL
-
-
-const videoUrl = ref('https://example.com/sample-video.mp4')  // video URL
-
 </script>
 
 <template lang="pug">
@@ -28,3 +21,9 @@ MDBody
         button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center 
             NuxtLink(to="/Dashboard/0/0") Present
 </template>
+
+<style>
+body {
+  background-color: white;
+}
+</style>
