@@ -33,16 +33,8 @@ const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', {
 })
 
 const inputDuration = ref('');
-const duration = ref(slideData.value.duration)
+const duration = ref(slideData.value.duration) || 10
 
-
-function updateImageUrl() {
-  imageUrl.value = inputImageUrl.value;
-}
-
-function updateVideoLink() {
-  videoLink.value = inputVideoUrl.value;
-}
 
 
 async function updateDuration() {
@@ -128,9 +120,9 @@ function updateWebsiteUrl() {
   
           div.mt-5.h-72
             iframe(v-if="websiteUrl" :src="websiteUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
-    div.mb-8
-      label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
-      input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder=`Enter in seconds`)
-      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
+      div.mb-8
+        label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
+        input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder=`Enter in seconds`)
+        button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
   </template>
   
