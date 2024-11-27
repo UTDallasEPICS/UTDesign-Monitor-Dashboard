@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import type { Slide } from '@/types.d.ts'
+import { useRoute } from 'vue-router'
 
 const selectedOption = ref('');
 
@@ -12,6 +14,45 @@ const inputVideoUrl = ref('');
 const videoLink = ref('https://example.com/sample-video.mp4');
 
 const isYouTube = ref(false);
+const route = useRoute()
+
+// Full URL
+const fullURL = route.fullPath
+
+const regex = /^.*\/([a-zA-Z0-9]+)\/(\d+)$/ 
+const match = fullURL.match(regex)
+const dashboardCuid = match ? match[1] : null
+const slideIndex = match ? match[2] : null // need to convert this to an Int so Prisma doesn't complain
+
+const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', {
+    method: 'GET',
+    query: { 
+      dashboardCuid : dashboardCuid, 
+      index: slideIndex
+    }
+})
+
+const inputDuration = ref('');
+const duration = ref(slideData.value.duration)
+
+
+function updateImageUrl() {
+  imageUrl.value = inputImageUrl.value;
+}
+
+function updateVideoLink() {
+  videoLink.value = inputVideoUrl.value;
+}
+
+
+async function updateDuration() {
+   duration.value = inputDuration.value
+   const saveSuccess  = await $fetch('/api/Slide/slide', { 
+         method: 'PUT', 
+         body: ({ slideData: slideData.value, duration: duration.value })
+     })
+  return saveSuccess
+}
 
 const inputWebsiteUrl = ref('');
 const websiteUrl = ref('https://example.com');
@@ -73,7 +114,7 @@ function updateWebsiteUrl() {
   
           div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
             iframe(v-if="isYouTube" :src="videoLink" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
-            video(v-else autoplay loop muted controls class="absolute z-10 w-auto min-w-full min-h-full max-w-none" :key="videoLink")
+            video(v-else autoplay loop muted controls class="absolute z-10 w-auto h-auto" :key="videoLink")
               source(:src="videoLink" type="video/mp4")
   
         // Website Section
@@ -87,5 +128,9 @@ function updateWebsiteUrl() {
   
           div.mt-5.h-72
             iframe(v-if="websiteUrl" :src="websiteUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
+    div.mb-8
+      label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
+      input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder=`Enter in seconds`)
+      button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
   </template>
   
