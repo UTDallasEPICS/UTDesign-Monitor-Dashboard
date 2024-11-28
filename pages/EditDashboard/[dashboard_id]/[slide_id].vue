@@ -98,10 +98,10 @@ function updateWebsiteUrl() {
     MDHeader
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
       div.grid-cols-3.row-span-1.flex.justify-between.space-x-32
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
-          NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`")
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
-          NuxtLink(:to="`/EditDashboard/${dashboardCuid}`")
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
         div.mb-8
           label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
           select#select-option(v-model="selectedOption" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
@@ -109,10 +109,10 @@ function updateWebsiteUrl() {
             option(value="image") Image
             option(value="video") Video
             option(value="website") Website
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
-          NuxtLink.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex" :to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`") New Slide
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
-          NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`")
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
   
       div.mb-8
         // Image Section
