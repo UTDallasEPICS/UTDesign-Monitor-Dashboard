@@ -22,7 +22,7 @@ export default eventHandler(async event=> {
     }
 
 })
-
+    console.log(queryRes)
     return queryRes
 }
 catch (e) {
