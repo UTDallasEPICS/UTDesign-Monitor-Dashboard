@@ -18,7 +18,7 @@ MDBody
     div.buttons.flex.justify-between.mt-8
         button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 
             NuxtLink(to="/EditDashboard/0") Edit
-        button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center 
+        button.bg-green-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center 
             NuxtLink(to="/Dashboard/0/0") Present
 </template>
 
