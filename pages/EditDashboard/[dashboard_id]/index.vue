@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRoute } from 'vue-router'
 
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
 const showDropdown = ref(false); // Toggle for dropdown visibility
@@ -8,6 +9,11 @@ function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
 
+const route = useRoute()
+const url = route.fullPath
+const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
+const match = url.match(regex);
+const dashboardCuid = match ? match[1] : null
 
 </script>
 
@@ -21,15 +27,15 @@ MDBody
         
         // Other buttons below
         div.buttons.flex.justify-between.mt-8
-            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 
-                NuxtLink(to="/EditDashboard/0/0") Edit
+            NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`")
+                button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4() Edit
             div.relative.mr-4
                 button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center(@click="toggleDropdown") Other
                 // Dropdown Menu
                 div.absolute.bg-white.border.border-gray-300.rounded-lg.mt-2.shadow-lg.w-full(v-if="showDropdown")
-                    NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(to="/EditDashboard/0/1") Post to Display
-                    NuxtLink.block.px-4.py-2.text.gray-700.hover_bg-gray-100(to="/EditDashboard/0/2") Show Preview
-                    NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(to="/EditDashboard/0/rename") Name Dashboard
+                    NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/post`") Post
+                    NuxtLink.block.px-4.py-2.text.gray-700.hover_bg-gray-100(:to="`/Dashboard/${dashboardCuid}/1`") Preview
+                    NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/rename`") Rename
             button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Delete
 </template>
 

@@ -5,7 +5,7 @@ MDBody
         div.mb-8
             label.block.text-lg.font-semibold.mb-2(for="dashboard-name") Enter New Name for Dashboard:
             input#dashboard-name.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="newName" placeholder="Enter Dashboard Name")
-            button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateNewName") Submit
+            button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="updateNewName") Submit
 </template>
     
 
@@ -15,33 +15,20 @@ import type { Dashboard } from '@/types.d.ts'
 import { useRoute } from 'vue-router'
 
 
-
-const router = useRoute()
-
-const data = ref<Dashboard>({
-    cuid: "",
-    name: "",
-    slides: "",
-    owner: "",
-    userCuid: "",
-    Device: ""
-})
-
-const EditDashboardId = computed(() => router.params.EditDashboardId); // linter mad about computed here, don't worry about it
-
-
-
-const save = async () => {
-    // todo: change to $fetch
-    const saveSuccess  = await $fetch('/api/dashboard', {
-        // Checks if there is a pre-existing page to edit or if to create a new page    
-        method: router.params.EditDashboardId !== "0" ? 'PUT' : 'POST',
-        body: ({ ...data.value })
-    }
-    )
-
-await getData(useRoute().params.EditDashboardId as string)
-};
+const newName = ref('')
+const route = useRoute()
+const url = route.fullPath
+const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
+const match = url.match(regex);
+const dashboardCuid = match ? match[1] : null
+async function updateNewName() {
+    console.log("reached update new name function")
+    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
+         method: 'PUT', 
+         body: { cuid: dashboardCuid, name: newName }
+     })
+    return saveSuccess
+}
 
 
 
