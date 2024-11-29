@@ -11,8 +11,7 @@ const route = useRoute()
 const fullURL = route.fullPath
 const regex = /^.*\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/ 
 const match = fullURL.match(regex)
-const dummy = match ? match[1] : null // right after EditDashboard
-const dashboardCuid = match ? match[2] : null // This "should" be "undefined" because this is the default page for the EditDashboard/[dashboard_id] directory
+const dashboardCuid = match ? match[2] : null // It grabs EditDashboard for the second index of match, so we want the third index or index #2
 
 
 </script>
