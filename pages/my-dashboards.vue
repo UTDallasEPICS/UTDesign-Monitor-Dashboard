@@ -28,10 +28,9 @@ const addDashboard = async () => {
   const newIndex = dashboards.value.length + 1
   dashboards.value.push({
     name: `Dashboard ${newIndex}`,
-    url: 'http://google.com',
     selected: false  // Add a 'selected' property to track deletion
   })
-  const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { //
+  const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
         method: 'POST', // recall that POST = CREATE in CRUD!
         body: ({ name: `Dashboard ${newIndex}` })
     })
@@ -81,8 +80,8 @@ MDBody
             div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
                 div.font-semibold {{ dashboard.name }}
                 div 
-                button.bg-gray-200.px-2.py-2.rounded 
-                    NuxtLink(to="/Dashboard/0") View
+                NuxtLink(:to="`/Dashboard/${dashboard.cuid}`")
+                  button.bg-blue-200.px-2.py-2.rounded() View
                 div.mt-2 
                     input(type="checkbox" v-model="dashboard.selected")  
                     // Bind checkbox to 'selected'
