@@ -47,11 +47,11 @@ const deleteSelectedDashboards = async () => {
   }
 
   // Confirm with the user before deletion
-  const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is not reversable?`)
+  const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is NOT reversible`)
 
   if (confirmed) {
     for (let i = 0; i < selectedCount; i++) {
-    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { // TODO: Ask Allison during lab tomorrow!
+    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
         method: 'DELETE', 
         body: ({ cuid: selectedDashboards[i].cuid })
     })
