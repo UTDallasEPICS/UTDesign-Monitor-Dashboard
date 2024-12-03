@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Dashboard } from '@/types.d.ts'
+import type { Dashboard, User } from '@/types.d.ts'
+
+const ownedDashboardsToggle = ref(true)
+const toggle = async () => { 
+  
+  ownedDashboardsToggle.value = !(ownedDashboardsToggle.value) 
+ 
+} 
+
+
+const mduser = useCookie<User>('mduser');
+
 
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])
+const ownedDashboards = ref([])
   const getDashboards = async () => {
     // fetch list of dashboards
     const res = await $fetch("/api/Dashboard/dashboards")
@@ -15,10 +27,12 @@ const dashboards = ref([])
       name: res[i].name,
       url: res[i].url,
       selected: false,  // Add a 'selected' property to track deletion
-      cuid: res[i].cuid
+      cuid: res[i].cuid,
+      owner: res[i].owner
   });
     }
-
+    ownedDashboards.value = dashboards.value.filter(dashboard => (dashboard.owner.cuid == mduser.value.cuid))
+    
   }
 
 
@@ -72,20 +86,31 @@ MDBody
         div.flex.justify-between.mb-4
             button.bg-gray-200.px-4.py-2.rounded 
                 NuxtLink(to="/") Back
-            h2.text-xl.font-semibold My Dashboards
-
+            button.text-xl.font-semibold(v-if="ownedDashboardsToggle" @click="toggle") My Dashboards
+            button.text-xl.font-semibold(v-if="!ownedDashboardsToggle" @click="toggle") All Dashboards
         div.grid.grid-cols-1.gap-6
             div(v-if="dashboards.length === 0") No dashboards added yet.
 
-            div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
-                div.font-semibold {{ dashboard.name }}
-                div 
-                NuxtLink(:to="`/Dashboard/${dashboard.cuid}`")
-                  button.bg-blue-200.px-2.py-2.rounded() View
-                div.mt-2 
-                    input(type="checkbox" v-model="dashboard.selected")  
-                    // Bind checkbox to 'selected'
-                    span Delete
+            div(v-if="ownedDashboardsToggle")
+              div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in ownedDashboards" :key="index")
+                  div.font-semibold {{ dashboard.name }}
+                  div 
+                  NuxtLink(:to="`/Dashboard/${dashboard.cuid}`")
+                    button.bg-blue-200.px-2.py-2.rounded() View
+                  div.mt-2 
+                      input(type="checkbox" v-model="dashboard.selected")  
+                      // Bind checkbox to 'selected'
+                      span Delete
+            div(v-else)
+              div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
+                  div.font-semibold {{ dashboard.name }}
+                  div 
+                  NuxtLink(:to="`/Dashboard/${dashboard.cuid}`")
+                    button.bg-blue-200.px-2.py-2.rounded() View
+                  div.mt-2 
+                      input(type="checkbox" v-model="dashboard.selected")  
+                      // Bind checkbox to 'selected'
+                      span Delete
 
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
