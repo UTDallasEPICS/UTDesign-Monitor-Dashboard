@@ -1,6 +1,12 @@
 <script setup lang= "ts">
 import { onMounted, reactive, ref } from 'vue'
 
+//
+const roleOption = ref([
+    {text: 'Admin'},
+    {text: 'User'}
+])
+
 //array of current users
 const users = ref([])
 
@@ -18,20 +24,29 @@ for(let i = 0; i < res.length; i++){
   });
 
 }
-
 }
 
-//calling function
-onMounted(() => {
-    getUsers();
+//add user
 
-});
+
+//calling function
+ getUsers();
+
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
+MDBody
+    MDHeader
     div.margin-top.mt-40.w-full.px-96
+        div.flex.items-center.gap-1.mb-1
+                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="addUser") Add User
+                button.bg-white.h-10.rounded.w-24.whitespace-nowrap
+                    NuxtLink(to="/remove-dashboard") Delete User
         div.w-full.max-w-screen.rounded-md.h-full.overflow-scroll
+
+        div.selected
+            select
+
             table(class = "w-full text-left table-auto")
                 thead(class = "bg-red-200")
                     tr
