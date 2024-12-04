@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import {loginRedirectUrl} from "../login/auth0"
+import dashboardDelete from "./dashboard.delete";
 
 
 const runtime = useRuntimeConfig()
@@ -13,9 +14,16 @@ export default defineEventHandler(async event => {
         })
         const queryRes = await event.context.client.dashboard.create({
             data: {
+                name: body.name,
                 userCuid: owner.cuid
             }
         }) 
+        const newSlide = await event.context.client.slide.create({
+            data: {
+                dashboardCuid: queryRes.cuid,
+                index: 1
+            }
+        })
         return true
     }
     catch (e) {

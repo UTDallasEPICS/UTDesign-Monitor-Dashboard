@@ -1,8 +1,9 @@
 # How the Raspberry Pi's work with our website
 ```mermaid
 graph TD;
-  A["Raspberry Pi starts up"] --> B["script runs"] --> C["goes to its respective page on our website"] --> D["Pi is redirected to present the Dashboard stored in our website"] --> E["Pi is turned off and on again every so often"] --> A
+  A["Raspberry Pi starts up"] --> B["script runs"] --> C["goes to its respective page on our website"] --> D["Pi is redirected to a generated URL (when the Dashboard is sent to the Device) present the Dashboard stored in our website"] --> E["When the Device is done presenting the Dashboard, it redirects to its specific page to present its Dashboard again"] --> C
 ```
+
 
 # Nuxt 3 Minimal Starter
 

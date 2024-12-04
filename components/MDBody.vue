@@ -1,0 +1,4 @@
+<template lang="pug">
+div.bg-purple-200.min-h-screen.w-screen.flex.flex-col.items-center.space-y-4
+    slot
+</template>

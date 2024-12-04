@@ -4,7 +4,8 @@
 </script>
 
 <template lang="pug">
-div.bg-purple-200.min-h-screen.w-screen.items-center.justify-center.flex.flex-col.space-y-4
+MDBody
+    MDHeader
     div.p-10.bg-white.border.rounded-md.w-full.max-w-3xl
         div.flex.items-center.justify-between.mb-6
             h2.text-xl.font-semibold.ml-auto My Admin Page
