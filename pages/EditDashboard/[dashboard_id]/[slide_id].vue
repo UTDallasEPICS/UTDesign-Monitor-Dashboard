@@ -42,7 +42,7 @@ const { data: slides } = await useFetch<Slide>('/api/Slide/slides', { // linter 
 const lastIndex = slides.value.length // recall that indexes for slides start from 1, not 0
 
 const inputDuration = ref('');
-const duration = ref(slideData.value.duration) || 10
+const duration = ref(slideData.value?.duration) || 10
 
 
 
