@@ -1,6 +1,5 @@
 <script setup lang= "ts">
-import { onMounted, reactive, ref } from 'vue'
-import type { User } from '@/types.d.ts'
+import { reactive, ref } from 'vue'
 
 // role drop down 
 const roleOption = ref([
@@ -13,7 +12,7 @@ const roleOption = ref([
 //add user email
 
 //array of current users
-const users = ref([])
+const users = ref([]) //?????
 
 const getUsers = async () => {
 
@@ -33,11 +32,12 @@ for(let i = 0; i < res.length; i++){
 }
 
 //add user
+//???
 const addUser = async () => {
     const newIndex = users.value.length + 1
     users.value.push({
-        name: ``,
-        email: ``,
+        name: "",
+        email: "",
         role: "",
         selected: false
     })
@@ -46,16 +46,17 @@ const addUser = async () => {
 //save user
 const saveSuccess = await $fetch("/api/User/user", {
     method: 'POST',
-    body: ({ name: `User ${newIndex}`,
-        email: `User ${newIndex}`,
+    body: ({ name: "",
+        email: "",
         role: "" })
 
 })
 
 const updateUserRole = await $fetch("/api/User/user", {
     method: 'PUT',
-    body: ({ name: `User ${newIndex}`,
-        role: ""})
+    body: ({ name: "",
+        email: "",
+        role: "" })
 })
 
 }
@@ -99,8 +100,8 @@ MDBody
                 button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="deleteSelectedUser") Delete User
 
     
-        div.w-full.max-w-screen.rounded-md.h-full.overflow-scroll
-            table(class = "w-full text-left table-auto")
+        div.w-full.max-w-screen.max-h-96.overflow-y-auto.rounded-md.h-full
+            table(class = "bg-blue-200 w-full text-left column-gap table-auto")
                 thead(class = "bg-red-200")
                     tr
                         th(class = "p-4 border-b")
@@ -109,16 +110,26 @@ MDBody
                             p(class ="text-2xl.font-semibold") Email {{ users_email }}
                         th(class ="p-4 border-b")
                             p(class ="text-2xl.font-semibold") Role  {{ users_user_role }}
+                        th(class = "p-4 border-b")
+
+
+                                    
                 tbody
                     tr(v-for= "(user, index) in users" :key= "index")
-                        td(class = "p-4") {{ user.name }}
-                            input(v-model = "name" placeholder = "name")
-                        td(class = "p-4") {{ user.email }}
-                            input(v-model = "name" placeholder = "example@gmail.com")
                         td(class = "p-4") 
-                            select(v-model = "user.role" class = "")
-                                option(v-for= "option in roleOption" :value="option.value") {{ option.text }}
+                            input(v-model = "user.name" placeholder = "name" class = "bg-blue-200")
+                        td(class = "p-4") 
+                            input(v-model = "user.email" placeholder = "example@gmail.com" class = "bg-blue-200")
+                        td(class = "p-4") 
+                            select(v-model = "user.role" class = "bg-blue-200")
+                                option(v-for= "option in roleOption" :value="option.value" class = "bg-blue-200") {{ option.text }}
                             div.selected
-                                    
-
+                        td(class = "p-4")
+                            input(type="checkbox" v-model="user.selected")
+                            span Delete
 </template>
+
+//save user data in database doesn't work and vice versa
+//need reactive api so that v-model doesn't ignore initial values and selected
+//email replaces all fields??????
+ 
