@@ -1,71 +1,72 @@
 <script setup lang= "ts">
 import { reactive, ref } from 'vue'
 
+
 // role drop down 
 const roleOption = ref([
     {text: 'Admin', value: 'admin'},
     {text: 'User', value: 'user'}
 ])
 
-//add user name
-
-//add user email
-
 //array of current users
-const users = ref([]) //?????
-
+const users = reactive([]) 
 const getUsers = async () => {
+    //fetch
+    const res = await $fetch("/api/User/users")
+    for(let i = 0; i < res.length; i++){
+        users.push({
+        name: res[i].name,
+        email: res[i].email,
+        role: res[i].user_role,
+        selected: false // Add a 'selected' property to track deletion
+    });
+  }
+} 
 
-//fetch list of users 
-const res = await $fetch("/api/User/users")
-
-
-for(let i = 0; i < res.length; i++){
-      users.value.push({
-      name: res[i].name,
-      email: res[i].email,
-      role: res[i].user_role,
-      selected: false // Add a 'selected' property to track deletion
-  });
-
-}
-}
 
 //add user
-//???
 const addUser = async () => {
-    const newIndex = users.value.length + 1
-    users.value.push({
+    const newIndex = users.length + 1
+    const newUser = {
         name: "",
         email: "",
         role: "",
         selected: false
+    }
+
+    users.push(newUser)
+
+//create user in database 
+
+    const saveUser = await $fetch("/api/User/user", {
+        method: 'POST',
+        body: {
+            name: newUser.name,
+            email: newUser.email,
+            role: newUser.role
+        }
+
     })
-
-
-//save user
-const saveSuccess = await $fetch("/api/User/user", {
-    method: 'POST',
-    body: ({ name: "",
-        email: "",
-        role: "" })
-
-})
-
-const updateUserRole = await $fetch("/api/User/user", {
-    method: 'PUT',
-    body: ({ name: "",
-        email: "",
-        role: "" })
-})
-
 }
+
+
+const UpdateUserRole = async (user) => {
+
+    const updatedUser = await $fetch("/api/User/user", {
+        method: 'PUT',
+        body: {
+            name: user.name,
+            role: user.role
+        }
+    })
+  } 
+
 
 
 // Pranav's code from Function to delete selected dashboards with confirmation---> delete selected users with confirmation
 const deleteSelectedUser = async () => {
-  const selectedUsers = users.value.filter(user => user.selected)
-  const selectedCount = users.value.filter(user => user.selected).length
+  const selectedUsers = users.filter(user => user.selected)
+  const selectedCount = users.filter(user => user.selected).length
 
   if (selectedCount === 0) {
     alert('No users selected for deletion.')
@@ -81,13 +82,15 @@ const deleteSelectedUser = async () => {
         method: 'DELETE', 
         body: ({ name: selectedUsers[i].name })
     })
-    users.value = users.value.filter(user => !user.selected)
+    users.splice(0, users.length, ...users.filter(user => !user.selected)) //why this works? 
+    } 
+       
     }
   }
-}
+
 
 //calling function
- getUsers();
+getUsers();
 
 </script>
 
@@ -117,9 +120,9 @@ MDBody
                 tbody
                     tr(v-for= "(user, index) in users" :key= "index")
                         td(class = "p-4") 
-                            input(v-model = "user.name" placeholder = "name" class = "bg-blue-200")
+                            input(v-model = "user.name" placeholder = "name" class = "bg-blue-200") 
                         td(class = "p-4") 
-                            input(v-model = "user.email" placeholder = "example@gmail.com" class = "bg-blue-200")
+                            input(v-model = "user.email" placeholder = "example@gmail.com" class = "bg-blue-200") 
                         td(class = "p-4") 
                             select(v-model = "user.role" class = "bg-blue-200")
                                 option(v-for= "option in roleOption" :value="option.value" class = "bg-blue-200") {{ option.text }}
@@ -129,7 +132,5 @@ MDBody
                             span Delete
 </template>
 
-//save user data in database doesn't work and vice versa
-//need reactive api so that v-model doesn't ignore initial values and selected
-//email replaces all fields??????
+
  
