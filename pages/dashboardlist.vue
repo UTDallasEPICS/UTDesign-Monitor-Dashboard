@@ -4,9 +4,7 @@ import type { Dashboard, User } from '@/types.d.ts'
 
 const ownedDashboardsToggle = ref(true)
 const toggle = async () => { 
-  
   ownedDashboardsToggle.value = !(ownedDashboardsToggle.value) 
- 
 } 
 
 
@@ -44,6 +42,10 @@ const addDashboard = async () => {
     name: `Dashboard ${newIndex}`,
     selected: false  // Add a 'selected' property to track deletion
   })
+  ownedDashboards.value.push({
+    name: `Dashboard ${newIndex}`,
+    selected: false
+  })
   const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
         method: 'POST', // recall that POST = CREATE in CRUD!
         body: ({ name: `Dashboard ${newIndex}` })
@@ -70,6 +72,7 @@ const deleteSelectedDashboards = async () => {
         body: ({ cuid: selectedDashboards[i].cuid })
     })
     dashboards.value = dashboards.value.filter(dashboard => !dashboard.selected)
+    ownedDashboards.value = ownedDashboards.value.filter(dashboard => !dashboard.selected)
     }
   }
 }
@@ -107,7 +110,7 @@ MDBody
                   div 
                   NuxtLink(:to="`/Dashboard/${dashboard.cuid}`")
                     button.bg-blue-200.px-2.py-2.rounded() View
-                  div.mt-2 
+                  div.mt-2(v-if="md.user_role == 'admin'")
                       input(type="checkbox" v-model="dashboard.selected")  
                       // Bind checkbox to 'selected'
                       span Delete
@@ -115,5 +118,5 @@ MDBody
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
                 NuxtLink(to="/EditDashboard/0") 
-            button.bg-red-200.px-4.py-2.rounded(@click="deleteSelectedDashboards") Delete Selected
+            button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin'" @click="deleteSelectedDashboards") Delete Selected
 </template>
