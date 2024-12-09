@@ -5,9 +5,7 @@ import { useRoute } from 'vue-router'
 
 const selectedOption = ref('');
 
-async function updateSlideType() {
-    console.log(`Selected option: ${selectedOption.value}`); // debug output
-}
+
 
 // Image state
 const inputImageUrl = ref('');
@@ -27,7 +25,8 @@ const match = fullURL.match(regex)
 const dashboardCuid = match ? match[1] : null
 const slideIndex = match ? match[2] : null // need to convert this to an Int so Prisma doesn't complain
 
-const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', {
+
+const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', { // this is where the data is fetched for the slide on the page
     method: 'GET',
     query: { 
       dashboardCuid : dashboardCuid, 
@@ -95,6 +94,15 @@ function updateVideoLink() {
 function updateWebsiteUrl() {
   websiteUrl.value = inputWebsiteUrl.value;
 }
+
+async function updateSlideType() {
+    const saveSuccess  = await $fetch('/api/Slide/slide', { 
+         method: 'PUT', 
+         body: ({ slideData: slideData.value, newtype: selectedOption.value })
+     })
+  return saveSuccess
+}
+
 </script>
 
 <template lang="pug">
