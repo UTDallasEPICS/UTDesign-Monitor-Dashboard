@@ -5,6 +5,10 @@ import { useRoute } from 'vue-router'
 
 const selectedOption = ref('');
 
+async function updateSlideType() {
+    console.log(`Selected option: ${selectedOption.value}`); // debug output
+}
+
 // Image state
 const inputImageUrl = ref('');
 const imageUrl = ref('https://example.com/image.jpg');
@@ -104,7 +108,7 @@ function updateWebsiteUrl() {
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
         div.mb-8
           label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
-          select#select-option(v-model="selectedOption" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
+          select#select-option.w-full.px-4.py-2.border.border-gray-300.rounded-lg(v-model="selectedOption" @change="updateSlideType")
             option(value="") -- Select --
             option(value="image") Image
             option(value="video") Video
