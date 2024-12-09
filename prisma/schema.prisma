@@ -39,6 +39,7 @@ model Slide {
   website       String    @default("")
   dashboardCuid String
   duration      Int       @default(10)
+  type          String    @default("image")
 }
 
 model Device {

@@ -49,8 +49,8 @@ const duration = ref(slideData.value?.duration) || 10
 async function updateDuration() {
    duration.value = inputDuration.value
    const saveSuccess  = await $fetch('/api/Slide/slide', { 
-         method: 'PUT', 
-         body: ({ slideData: slideData.value, duration: duration.value, type: selectedOption }) // the type is for later when typing is implemented for Slides in the schema
+         method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
+         body: ({ slideData: slideData.value, duration: duration.value})
      })
   return saveSuccess
 }
