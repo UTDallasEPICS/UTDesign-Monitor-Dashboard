@@ -18,6 +18,9 @@ export default defineEventHandler(async event => {
             }
         })
         if (event.context.user.user_role === "admin" || event.context.user.cuid === owner.cuid) {
+            const deleteSlides = await event.context.client.slide.deleteMany({ // delete slides first
+                where: { dashboardCuid: body.cuid as string }
+            })
             const queryRes =  await event.context.client.dashboard.delete({
                 where: { cuid: body.cuid as string }
             })
