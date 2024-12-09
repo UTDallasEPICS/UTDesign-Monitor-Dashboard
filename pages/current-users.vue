@@ -15,9 +15,10 @@ const getUsers = async () => {
     const res = await $fetch("/api/User/users")
     for(let i = 0; i < res.length; i++){
         users.push({
-        name: res[i].name,
-        email: res[i].email,
-        role: res[i].user_role,
+        cuid: res[i]?.cuid,
+        name: res[i]?.name,
+        email: res[i]?.email,
+        role: res[i]?.user_role,
         selected: false // Add a 'selected' property to track deletion
     });
   }
@@ -29,22 +30,19 @@ const addUser = async () => {
     const newIndex = users.length + 1
     const newUser = {
         name: "",
-        email: "",
+        email: "example@example.com",
         role: "",
         selected: false
     }
 
     users.push(newUser)
 
-//create user in database 
+//creates user in database 
 
     const saveUser = await $fetch("/api/User/user", {
         method: 'POST',
-        body: {
-            name: newUser.name,
-            email: newUser.email,
-            role: newUser.role
-        }
+        body: 
+         {email: newUser.email}
 
     })
 }
@@ -56,7 +54,7 @@ const UpdateUserRole = async (user) => {
         method: 'PUT',
         body: {
             name: user.name,
-            role: user.role
+            role: user.user_role
         }
     })
   } 
@@ -80,7 +78,7 @@ const deleteSelectedUser = async () => {
     for (let i = 0; i < selectedCount; i++) {
     const saveSuccess  = await $fetch('/api/User/user', { 
         method: 'DELETE', 
-        body: ({ name: selectedUsers[i].name })
+        body: ({ email: selectedUsers[i].email })
     })
     users.splice(0, users.length, ...users.filter(user => !user.selected)) //why this works? 
     } 
@@ -99,8 +97,9 @@ MDBody
     MDHeader
     div.margin-top.mt-40.w-full.px-96
         div.flex.items-center.gap-1.mb-1
-                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="addUser") Add User
+                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="addUser") Add User 
                 button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="deleteSelectedUser") Delete User
+                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="UpdateUserRole") Save
 
     
         div.w-full.max-w-screen.max-h-96.overflow-y-auto.rounded-md.h-full
@@ -108,11 +107,11 @@ MDBody
                 thead(class = "bg-red-200")
                     tr
                         th(class = "p-4 border-b")
-                            p(class = "text-2xl.font-semibold") Name {{ users_name }}
+                            p(class = "text-2xl.font-semibold") Name 
                         th(class ="p-4 border-b")
-                            p(class ="text-2xl.font-semibold") Email {{ users_email }}
+                            p(class ="text-2xl.font-semibold") Email 
                         th(class ="p-4 border-b")
-                            p(class ="text-2xl.font-semibold") Role  {{ users_user_role }}
+                            p(class ="text-2xl.font-semibold") Role  
                         th(class = "p-4 border-b")
 
 
