@@ -5,12 +5,19 @@ graph TD;
 ```
 
 
+## Instructions for setting up the development environment
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Setup
 
+## Setup
+Clone repsitory
+
+Copy .env into root or fill out new keys from .env.example
+
+Need Private keys/info for
+  - Auth0
 Make sure to install the dependencies:
 
 ```bash
@@ -26,6 +33,16 @@ yarn install
 # bun
 bun install
 ```
+## Initialie Database
+
+Initialize Postgres DB via
+
+- npx prisma generate
+- npx prisma migrate dev
+- npx prisma studio
+Open the generated localhost:5555 if you aren't automatically taken to it
+  - localhost:5555
+Add yourself as a user
 
 ## Development Server
 
