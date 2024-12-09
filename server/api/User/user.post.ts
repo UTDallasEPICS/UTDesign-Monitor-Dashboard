@@ -9,8 +9,7 @@ const runtime = useRuntimeConfig()
 
 export default defineEventHandler(async event => { 
     const body = await readBody(event)
-    console.log(event.context.user)
-    // if (event.context.user.user_role === "admin") { // you can only create a user if you're an admin
+    if (event.context.user.user_role === "admin") { // you can only create a user if you're an admin
         try{
             const queryRes = await event.context.client.user.create({
                 data: {cuid: undefined, email: body.email}
@@ -21,11 +20,11 @@ export default defineEventHandler(async event => {
             console.log(e)
             return false
         }
-   // }
-    /*else {
+    }
+    else {
         console.log("user attempted to create user")
         return false;
     }
-*/
+
 })
 

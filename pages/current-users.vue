@@ -95,40 +95,41 @@ getUsers();
 <template lang="pug">
 MDBody
     MDHeader
-    div.margin-top.mt-40.w-full.px-96
-        div.flex.items-center.gap-1.mb-1
-                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="addUser") Add User 
-                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="deleteSelectedUser") Delete User
-                button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="UpdateUserRole") Save
+    div.p-10.bg-white.border.rounded-md.w-full.justify-center.items-center.flex.flex-col.space-y-4
+        div.w-max.px-96
+            div.flex.items-center.gap-1.mb-1
+                    button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="addUser") Add User 
+                    button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="deleteSelectedUser") Delete User
+                    button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="UpdateUserRole") Save
 
-    
-        div.w-full.max-w-screen.max-h-96.overflow-y-auto.rounded-md.h-full
-            table(class = "bg-blue-200 w-full text-left column-gap table-auto")
-                thead(class = "bg-red-200")
-                    tr
-                        th(class = "p-4 border-b")
-                            p(class = "text-2xl.font-semibold") Name 
-                        th(class ="p-4 border-b")
-                            p(class ="text-2xl.font-semibold") Email 
-                        th(class ="p-4 border-b")
-                            p(class ="text-2xl.font-semibold") Role  
-                        th(class = "p-4 border-b")
+        
+            div.w-full.max-w-screen.max-h-96.overflow-y-auto.rounded-md.h-full
+                table(class = "bg-blue-200 w-full text-left column-gap table-auto")
+                    thead(class = "bg-red-200")
+                        tr
+                            th(class = "p-4 border-b")
+                                p(class = "text-2xl.font-semibold") Name 
+                            th(class ="p-4 border-b")
+                                p(class ="text-2xl.font-semibold") Email 
+                            th(class ="p-4 border-b")
+                                p(class ="text-2xl.font-semibold") Role  
+                            th(class = "p-4 border-b")
 
 
-                                    
-                tbody
-                    tr(v-for= "(user, index) in users" :key= "index")
-                        td(class = "p-4") 
-                            input(v-model = "user.name" placeholder = "name" class = "bg-blue-200") 
-                        td(class = "p-4") 
-                            input(v-model = "user.email" placeholder = "example@gmail.com" class = "bg-blue-200") 
-                        td(class = "p-4") 
-                            select(v-model = "user.role" class = "bg-blue-200")
-                                option(v-for= "option in roleOption" :value="option.value" class = "bg-blue-200") {{ option.text }}
-                            div.selected
-                        td(class = "p-4")
-                            input(type="checkbox" v-model="user.selected")
-                            span Delete
+                                        
+                    tbody
+                        tr(v-for= "(user, index) in users" :key= "index")
+                            td(class = "p-4") 
+                                input(v-model = "user.name" placeholder = "name" class = "bg-blue-200") 
+                            td(class = "p-4") 
+                                input(v-model = "user.email" placeholder = "example@gmail.com" class = "bg-blue-200") 
+                            td(class = "p-4") 
+                                select(v-model = "user.role" class = "bg-blue-200")
+                                    option(v-for= "option in roleOption" :value="option.value" class = "bg-blue-200") {{ option.text }}
+                                div.selected
+                            td(class = "p-4")
+                                input(type="checkbox" v-model="user.selected")
+                                span Delete
 </template>
 
 
