@@ -23,8 +23,6 @@ const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
 const match = url.match(regex);
 const dashboardCuid = match ? match[1] : null
 async function updateNewName() {
-    console.log(dashboardCuid)
-    console.log(newName.value)
     const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
          method: 'PUT', 
          body: { cuid: dashboardCuid, name: newName.value }
