@@ -15,7 +15,7 @@ try {
         }
     })
 
-    return true
+    return updateDashboard
 }
 
 catch (e) {

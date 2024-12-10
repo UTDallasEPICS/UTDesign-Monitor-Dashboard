@@ -5,6 +5,8 @@ import { useRoute } from 'vue-router'
 
 const selectedOption = ref('');
 
+
+
 // Image state
 const inputImageUrl = ref('');
 const imageUrl = ref('https://example.com/image.jpg');
@@ -23,7 +25,8 @@ const match = fullURL.match(regex)
 const dashboardCuid = match ? match[1] : null
 const slideIndex = match ? match[2] : null // need to convert this to an Int so Prisma doesn't complain
 
-const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', {
+
+const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', { // this is where the data is fetched for the slide on the page
     method: 'GET',
     query: { 
       dashboardCuid : dashboardCuid, 
@@ -49,8 +52,8 @@ const duration = ref(slideData.value?.duration) || 10
 async function updateDuration() {
    duration.value = inputDuration.value
    const saveSuccess  = await $fetch('/api/Slide/slide', { 
-         method: 'PUT', 
-         body: ({ slideData: slideData.value, duration: duration.value, type: selectedOption }) // the type is for later when typing is implemented for Slides in the schema
+         method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
+         body: ({ slideData: slideData.value, duration: duration.value})
      })
   return saveSuccess
 }
@@ -91,6 +94,15 @@ function updateVideoLink() {
 function updateWebsiteUrl() {
   websiteUrl.value = inputWebsiteUrl.value;
 }
+
+async function updateSlideType() {
+    const saveSuccess  = await $fetch('/api/Slide/slide', { 
+         method: 'PUT', 
+         body: ({ slideData: slideData.value, newtype: selectedOption.value })
+     })
+  return saveSuccess
+}
+
 </script>
 
 <template lang="pug">
@@ -104,7 +116,7 @@ function updateWebsiteUrl() {
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
         div.mb-8
           label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
-          select#select-option(v-model="selectedOption" class="w-full px-4 py-2 border border-gray-300 rounded-lg")
+          select#select-option.w-full.px-4.py-2.border.border-gray-300.rounded-lg(v-model="selectedOption" @change="updateSlideType")
             option(value="") -- Select --
             option(value="image") Image
             option(value="video") Video
