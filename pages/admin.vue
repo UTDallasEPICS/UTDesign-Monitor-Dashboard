@@ -10,10 +10,8 @@ MDBody
         div.flex.items-center.justify-between.mb-6
             h2.text-xl.font-semibold.ml-auto My Admin Page
         div.flex.justify-center.items-center
-            button.bg-red-200.px-4.py-2.rounded.w-32
+            button.bg-red-200.px-4.py-2.rounded.w-32.hover_bg-red-300
                 NuxtLink(to="/current-users") Current Users 
-
-    NuxtPage
 </template>
 
 

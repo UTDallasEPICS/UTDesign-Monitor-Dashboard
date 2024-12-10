@@ -1,12 +1,9 @@
 <script setup lang= "ts">
 import { reactive, ref } from 'vue'
+import type { User } from '@/types.d.ts'
 
 
-// role drop down 
-const roleOption = ref([
-    {text: 'Admin', value: 'admin'},
-    {text: 'User', value: 'user'}
-])
+
 
 //array of current users
 const users = reactive([]) 
@@ -31,7 +28,7 @@ const addUser = async () => {
     const newUser = {
         name: "",
         email: "example@example.com",
-        role: "",
+        role: "user",
         selected: false
     }
 
@@ -47,16 +44,25 @@ const addUser = async () => {
     })
 }
 
+// role drop down 
+const roleOption = ref([
+    {text: 'Admin', value: 'admin'},
+    {text: 'User', value: 'user'}
+])
 
-const UpdateUserRole = async (user) => {
-
-    const updatedUser = await $fetch("/api/User/user", {
-        method: 'PUT',
-        body: {
-            name: user.name,
-            role: user.user_role
-        }
-    })
+const UpdateUsers = async () => {
+    for (let i = 0; i < users.length; i++) {
+        const updatedUser = await $fetch("/api/User/user", {
+            method: 'PUT',
+            body: {
+                cuid: users[i].cuid,
+                name: users[i].name,
+                email: users[i].email,
+                user_role: users[i].user_role
+            }
+        })
+    console.log(updatedUser)
+    }   
   } 
 
 
@@ -80,7 +86,8 @@ const deleteSelectedUser = async () => {
         method: 'DELETE', 
         body: ({ email: selectedUsers[i].email })
     })
-    users.splice(0, users.length, ...users.filter(user => !user.selected)) //why this works? 
+    users.splice(0, users.length, ...users.filter(user => !user.selected))
+//why this works? This is equivalent to saying users = users.filter(user => !user.selected). Not sure why GPT suggested this roundabout way. We can keep it for now, but it will likely be changed soon.
     } 
        
     }
@@ -96,40 +103,36 @@ getUsers();
 MDBody
     MDHeader
     div.p-10.bg-white.border.rounded-md.w-full.justify-center.items-center.flex.flex-col.space-y-4
-        div.w-max.px-96
-            div.flex.items-center.gap-1.mb-1
-                    button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="addUser") Add User 
-                    button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="deleteSelectedUser") Delete User
-                    button.bg-white.h-10.rounded.w-24.whitespace-nowrap(@click="UpdateUserRole") Save
-
-        
-            div.w-full.max-w-screen.max-h-96.overflow-y-auto.rounded-md.h-full
-                table(class = "bg-blue-200 w-full text-left column-gap table-auto")
-                    thead(class = "bg-red-200")
-                        tr
-                            th(class = "p-4 border-b")
-                                p(class = "text-2xl.font-semibold") Name 
-                            th(class ="p-4 border-b")
-                                p(class ="text-2xl.font-semibold") Email 
-                            th(class ="p-4 border-b")
-                                p(class ="text-2xl.font-semibold") Role  
-                            th(class = "p-4 border-b")
-
-
-                                        
-                    tbody
-                        tr(v-for= "(user, index) in users" :key= "index")
-                            td(class = "p-4") 
-                                input(v-model = "user.name" placeholder = "name" class = "bg-blue-200") 
-                            td(class = "p-4") 
-                                input(v-model = "user.email" placeholder = "example@gmail.com" class = "bg-blue-200") 
-                            td(class = "p-4") 
-                                select(v-model = "user.role" class = "bg-blue-200")
-                                    option(v-for= "option in roleOption" :value="option.value" class = "bg-blue-200") {{ option.text }}
-                                div.selected
-                            td(class = "p-4")
-                                input(type="checkbox" v-model="user.selected")
-                                span Delete
+        div.flex.items-center.gap-1.mb-1.px-5.py-2
+            button.bg-green-200.hover_bg-green-300.h-10.rounded.w-24(@click="addUser") Add User 
+            button.bg-red-200.hover_bg-red-300.h-10.rounded.w-24(@click="deleteSelectedUser") Delete Users
+            button.bg-blue-200.hover_bg-blue-300.h-10.rounded.w-24(@click="UpdateUsers") Save
+        div.w-full.overflow-y-auto.rounded-md.h-full()
+            table.bg-cyan-200.w-full.text-left.column-gap.table-auto()
+                thead.bg-fuchsia-200.w-full()
+                    tr
+                        th(class = "p-4 border-b")
+                            p(class = "text-2xl.font-semibold") Name 
+                        th(class ="p-4 border-b")
+                            p(class ="text-2xl.font-semibold") Email 
+                        th(class ="p-4 border-b")
+                            p(class ="text-2xl.font-semibold") Role  
+                        th(class = "p-4 border-b")
+                tbody
+                    tr(v-for= "(user, index) in users" :key= "index")
+                        td.p-4
+                            input.bg-inherit.w-full(v-model="user.name" placeholder = "name") 
+                        td.p-4
+                            input.bg-inherit.w-full(v-model="user.email" placeholder = "example@gmail.com") 
+                        td.p-4
+                            // This selection isn't actually updating anything inside of the user.role, meaning the frontend can't make the database update any user roles
+                            // TODO: Fix this
+                            select(v-model = "user.role")
+                                option(v-for= "option in roleOption" :value="option.value" ) {{ option.text }}
+                            div.selected
+                        td(class = "p-4")
+                            input.bg-inherit(type="checkbox" v-model="user.selected")
+                            span Delete
 </template>
 
 
