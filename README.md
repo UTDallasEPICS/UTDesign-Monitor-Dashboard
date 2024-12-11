@@ -1,6 +1,6 @@
 # Monitor Dashboard
 
-## Project Backgroung & Introduction
+## Project Background & Introduction
 
 UTDesign is a program created by the University of Texas at Dallas (UTD) to provide students with real-world, hands-on experience by collaborating with industry sponsors on engineering and computer science projects. Launched in 2009, UTDesign aims to bridge the gap between academic learning and practical application by allowing students to work in teams on projects that solve real industry problems. It began as a senior capstone initiative for engineering students and has since expanded to include a variety of disciplines, including computer science and BMEN.
 The mission of UTDesign is to prepare students for the professional world by developing their problem-solving, teamwork, and project-management skills in a practical environment. Through partnerships with companies, agencies, and nonprofits, the program also seeks to foster innovation while providing a valuable resource for industry sponsors. Ultimately, UTDesign aims to create a mutually beneficial relationship where students gain experience and sponsors receive innovative solutions to their challenges.
