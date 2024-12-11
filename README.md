@@ -81,7 +81,9 @@ graph TD;
 ## Instructions for setting up the development environment
 
 ## Setup
-Clone repsitory
+Download Node.js
+
+Clone repsitory with `git clone`
 
 Copy .env into root or fill out new keys from .env.example
 
@@ -105,7 +107,7 @@ Initialize SQLite3 DB via
 - npx prisma studio
 Open the generated localhost:5555 if you aren't automatically taken to it
   - localhost:5555
-Add first user with prisma studio with valid email that you can use
+Add first user with prisma studio with valid email that you can use 
 
 ## Development Server
 Start the development server on `http://localhost:3000`:
