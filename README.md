@@ -63,10 +63,9 @@ We want to create an easy-to-use and dependable dashboard web app that has an ac
 # Tech Stack
 
   ##### Frontend Frameworks
-        - Node.js (Package Manager)
-        - Vue.js  (Frontend Javascript Framework)
+        - Vue.js  (Frontend Java/Typescript Framework)
         - Tailwind CSS (Styling Framework)
-        - Pug (HTML Styling )
+        - Pug (HTML Styling)
   ##### Backend Frameworks
         - Nuxt.js(Framework for handling Backend)
   ##### Database
