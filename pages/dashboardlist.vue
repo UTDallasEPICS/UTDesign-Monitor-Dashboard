@@ -38,17 +38,18 @@ const ownedDashboards = ref([])
 // Function to add a new dashboard row
 const addDashboard = async () => {
   const newIndex = dashboards.value.length + 1
+  const newName = `Dashboard ${newIndex}`
   dashboards.value.push({
-    name: `Dashboard ${newIndex}`,
+    name: newName,
     selected: false  // Add a 'selected' property to track deletion
   })
   ownedDashboards.value.push({
-    name: `Dashboard ${newIndex}`,
+    name: newName,
     selected: false
   })
   const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
         method: 'POST', // recall that POST = CREATE in CRUD!
-        body: ({ name: `Dashboard ${newIndex}` })
+        body: ({ name: newName })
     })
   return saveSuccess
 }

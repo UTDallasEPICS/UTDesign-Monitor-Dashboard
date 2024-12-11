@@ -26,9 +26,9 @@ MDBody
             iframe.w-full.h-full.rounded-lg(:src="previewUrl" allow="fullscreen" frameborder="0")
         
         // Other buttons below
-        div.buttons.flex.justify-between.mt-8
-            NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`")
-                button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4() Edit
+        div.buttons.flex.justify-between.mt-8.gap-4
+            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4.hover_bg-purple-300()
+                NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`") Edit
             div.relative.mr-4
                 button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center(@click="toggleDropdown") Other
                 // Dropdown Menu
@@ -36,7 +36,8 @@ MDBody
                     NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/post`") Post
                     NuxtLink.block.px-4.py-2.text.gray-700.hover_bg-gray-100(:to="`/Dashboard/${dashboardCuid}/1`") Preview
                     NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/rename`") Rename
-            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Delete
+            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-red-300() Delete
+                NuxtLink(:to="`/dashboardlist`")
 </template>
 
 <style scoped>
