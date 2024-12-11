@@ -4,7 +4,7 @@ import type { Dashboard, User } from '@/types.d.ts'
 
 const ownedDashboardsToggle = ref(true)
 const toggle = async () => { 
-  ownedDashboardsToggle.value = !(ownedDashboardsToggle.value) 
+  ownedDashboardsToggle.value = !(ownedDashboardsToggle.value)
 } 
 
 
@@ -50,6 +50,7 @@ const addDashboard = async () => {
         method: 'POST', // recall that POST = CREATE in CRUD!
         body: ({ name: `Dashboard ${newIndex}` })
     })
+  return saveSuccess
 }
 
 // Function to delete selected dashboards with confirmation
@@ -93,7 +94,7 @@ MDBody
               button
                 MDUserIcon
               button.text-xl.font-semibold.rounded-md() My Dashboards
-            div.bg-white.position_relative.hover_bg-fuchsia-100.rounded-full(v-if="!ownedDashboardsToggle" @click="toggle")
+            div.bg-white.position_relative.hover_bg-fuchsia-100.rounded-full(v-if="!(ownedDashboardsToggle)" @click="toggle")
               button
                 MDUsersIcon
               button.text-xl.font-semibold.rounded-md() All Dashboards
@@ -116,13 +117,13 @@ MDBody
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
                     NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
-                  div.mt-2.size-full(v-if="md.user_role == 'admin'")
-                      input(type="checkbox" v-model="dashboard.selected")  
+                  div.mt-2.size-full(v-if="mduser.user_role == 'admin'")
+                      input(type="checkbox" v-model="dashboard.selected")
                       // Bind checkbox to 'selected'
                       span Delete
 
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
-                NuxtLink(to="/EditDashboard/0") 
-            button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin'" @click="deleteSelectedDashboards") Delete Selected
+                NuxtLink(to="/EditDashboard/0")
+            button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
 </template>
