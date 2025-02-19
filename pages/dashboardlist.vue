@@ -84,8 +84,6 @@ getDashboards()
 </script>
 
 <template lang="pug">
-MDBody
-  MDHeader
   div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
     div.bg-purple-200.p-10.bg-white.border.rounded-md.w-full.max-w-2xl
         div.flex.justify-between.mb-4

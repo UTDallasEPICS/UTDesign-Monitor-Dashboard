@@ -51,6 +51,8 @@ const roleOption = ref([
 ])
 
 const UpdateUsers = async () => {
+
+try{
     for (let i = 0; i < users.length; i++) {
         const updatedUser = await $fetch("/api/User/user", {
             method: 'PUT',
@@ -62,7 +64,11 @@ const UpdateUsers = async () => {
             }
         })
     console.log(updatedUser)
-    }   
+    }  
+}
+ catch (error){
+    console.error("Error: ", error);
+}
   } 
 
 
@@ -100,15 +106,13 @@ getUsers();
 </script>
 
 <template lang="pug">
-MDBody
-    MDHeader
     div.p-10.bg-white.border.rounded-md.w-full.justify-center.items-center.flex.flex-col.space-y-4
         div.flex.items-center.gap-1.mb-1.px-5.py-2
             button.bg-green-200.hover_bg-green-300.h-10.rounded.w-24(@click="addUser") Add User 
             button.bg-red-200.hover_bg-red-300.h-10.rounded.w-24(@click="deleteSelectedUser") Delete Users
             button.bg-blue-200.hover_bg-blue-300.h-10.rounded.w-24(@click="UpdateUsers") Save
         div.w-full.overflow-y-auto.rounded-md.h-full()
-            table.bg-cyan-200.w-full.text-left.column-gap.table-auto()
+            table.bg-white-200.w-full.text-left.column-gap.table-auto()
                 thead.bg-fuchsia-200.w-full()
                     tr
                         th(class = "p-4 border-b")
