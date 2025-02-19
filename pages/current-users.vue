@@ -51,8 +51,6 @@ const roleOption = ref([
 ])
 
 const UpdateUsers = async () => {
-
-try{
     for (let i = 0; i < users.length; i++) {
         const updatedUser = await $fetch("/api/User/user", {
             method: 'PUT',
@@ -65,10 +63,6 @@ try{
         })
     console.log(updatedUser)
     }  
-}
- catch (error){
-    console.error("Error: ", error);
-}
   } 
 
 
@@ -112,7 +106,7 @@ getUsers();
             button.bg-red-200.hover_bg-red-300.h-10.rounded.w-24(@click="deleteSelectedUser") Delete Users
             button.bg-blue-200.hover_bg-blue-300.h-10.rounded.w-24(@click="UpdateUsers") Save
         div.w-full.overflow-y-auto.rounded-md.h-full()
-            table.bg-white-200.w-full.text-left.column-gap.table-auto()
+            table.bg-cyan-200.w-full.text-left.column-gap.table-auto()
                 thead.bg-fuchsia-200.w-full()
                     tr
                         th(class = "p-4 border-b")
