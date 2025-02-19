@@ -106,8 +106,6 @@ async function updateSlideType() {
 </script>
 
 <template lang="pug">
-  MDBody
-    MDHeader
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
       div.grid-cols-3.row-span-1.flex.justify-between.space-x-32
         NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")

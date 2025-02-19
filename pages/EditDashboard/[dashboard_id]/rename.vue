@@ -1,6 +1,4 @@
 <template lang="pug">
-MDBody
-    MDHeader
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.justify-center.flex.flex-col.space-y-4
         div.mb-8
             label.block.text-lg.font-semibold.mb-2(for="dashboard-name") Enter New Name for Dashboard:

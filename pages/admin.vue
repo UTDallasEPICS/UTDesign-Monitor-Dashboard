@@ -4,8 +4,6 @@
 </script>
 
 <template lang="pug">
-MDBody
-    MDHeader
     div.p-10.bg-white.border.rounded-md.w-full.max-w-3xl
         div.flex.items-center.justify-between.mb-6
             h2.text-xl.font-semibold.ml-auto My Admin Page

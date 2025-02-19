@@ -18,8 +18,6 @@ const dashboardCuid = match ? match[1] : null
 </script>
 
 <template lang="pug">
-MDBody
-    MDHeader
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.justify-center.flex.flex-col.space-y-4
         // this is a preview of the slide
         div.slide-button-container.flex.justify-center.items-center.mb-10
