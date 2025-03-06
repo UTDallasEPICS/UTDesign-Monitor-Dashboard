@@ -17,8 +17,6 @@ const dashboardCuid = match ? match[2] : null // It grabs EditDashboard for the 
 </script>
 
 <template lang="pug">
-MDBody
-  MDHeader
   div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl
     div.slide-button-container.flex.justify-center.items-center.mb-10
       iframe(:src="previewUrl" class="w-full h-full rounded-lg" allow="fullscreen" frameborder="0")
