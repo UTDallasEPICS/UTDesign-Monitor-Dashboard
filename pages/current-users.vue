@@ -58,7 +58,7 @@ const UpdateUsers = async () => {
                 cuid: users[i].cuid,
                 name: users[i].name,
                 email: users[i].email,
-                user_role: users[i].user_role
+                user_role: users[i].role
             }
         })
     console.log(updatedUser)
