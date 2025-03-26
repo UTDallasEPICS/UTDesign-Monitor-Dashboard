@@ -36,4 +36,3 @@ const dashboardCuid = match ? match[1] : null
             button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-red-300()
                 NuxtLink(:to="`/dashboardlist`") Delete
 </template>
-
