@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^3.0.1",
     "@prisma/nuxt": "^0.0.35",
     "cookie": "^1.0.1",
     "fs": "^0.0.1-security",
