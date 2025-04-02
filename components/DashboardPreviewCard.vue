@@ -1,8 +1,8 @@
 <template>
     <div class="card text-center shadow-md border border-secondary">
         <Carousel :slides="thumbnails"/>
-        <h3 class="m-1">{{ dashboard.title }}</h3>
-        <p class="m-1">{{ dashboard.author.name }}</p>
+        <h3 class="m-1">{{ dashboard.name }}</h3>
+        <p class="m-1">{{ dashboard.owner.name }}</p>
         <UButton leading-icon="i-heroicons-magnifying-glass" :to="`/dashboards/dashboard-${dashboard.id}`" class="bg-green-700 shadow-lg">Details</UButton>
     </div>
 </template>
@@ -13,7 +13,7 @@
 
     const { dashboard } = defineProps(['dashboard']);
 
-    const thumbnails = dashboard.documents.map( (document) => document.preview);
+    const thumbnails = dashboard.slides.map( (slide) => slide.preview); // Add a new property Preview to the Slide.
 </script>
 
 <style>

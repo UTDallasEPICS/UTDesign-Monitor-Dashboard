@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import type { User } from '@/types.d.ts'
 import { computed } from 'vue'
 
@@ -21,4 +21,18 @@ const isAdmin = computed(() => mduser.value?.user_role == 'admin')
         NuxtLink(to="/new-user") New User
       button.px-4.py-2.shadow-2xl.bg-red-100.rounded-lg(v-if="isLoggedIn")
         a(href="/api/login/logout") Logout
+</template> -->
+
+<template>
+  <div>
+
+  </div>
 </template>
+
+<script setup>
+
+</script>
+
+<style scoped>
+
+</style>

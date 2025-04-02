@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import type { User } from '@/types.d.ts'
 import { computed } from 'vue'
 
@@ -21,4 +21,18 @@ div.mt-7.gap-2.border-4.bg-fuchsia-100.border-gray-300.rounded-xl.shadow-2xl.fle
     button.px-4.py-2.shadow-2xl.bg-red-100.rounded-lg.hover_bg-red-300(v-if="isAdmin") Admin
   a(href="/api/login/logout") 
     button.px-4.py-2.shadow-2xl.bg-red-200.rounded-lg.hover_bg-red-400(v-if="isLoggedIn") Logout
+</template> -->
+
+<template>
+  <div>
+
+  </div>
 </template>
+
+<script setup>
+
+</script>
+
+<style scoped>
+
+</style>

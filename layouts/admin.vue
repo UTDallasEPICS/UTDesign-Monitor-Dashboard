@@ -1,4 +1,4 @@
-<!-- User layout for each page with navigation bar -->
+<!-- Admin layout for each page with navigation bar -->
 
 <template>
     <div class="m-4">
@@ -16,26 +16,13 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { ref } from 'vue';
-import { useRouter } from '#vue-router'
-import type { User } from '@/types.d.ts'
-
-const mduser = useCookie<User>("mduser")
-const router = useRouter()
-
-let userNameRole: string = mduser.value.name + ` (${mduser.value.user_role})`;  // name isn't displayed
-
-
-const logout = () => {  // Create a button that allows the user to logout
-    mduser.value.cuid = "";
-    router.push('/login');
-};
 
 const items = ref<NavigationMenuItem[]>([
     [
         {
-            label: 'Dashboards',
+            label: 'My Dashboards',
             icon: 'i-heroicons-document-duplicate',
-            to: '/dashboardlist',
+            to: '/Dashboards',
         },
         {
             label: 'My Profile',
@@ -45,12 +32,17 @@ const items = ref<NavigationMenuItem[]>([
         {
             label: 'Logout',
             icon: 'i-heroicons-lock-closed',
-            action: logout,
+            to: '/',
         },
+        {
+            label: 'Admin',
+            icon: 'i-heroicons-gear',
+            to: '/admin',
+        }
     ],
     [
         {
-            label: userNameRole,
+            label: 'userNameRole',
             to: '/profile',
         },
     ],
@@ -59,5 +51,5 @@ const items = ref<NavigationMenuItem[]>([
 </script>
 
 <style scoped>
-    .router-link-exact-active {font-weight: bolder;}
+    .router-link-exact-active { font-weight: bolder;}
 </style>
