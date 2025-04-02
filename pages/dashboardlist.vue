@@ -17,8 +17,9 @@ const ownedDashboards = ref([])
   const getDashboards = async () => {
     // fetch list of dashboards
     const res = await $fetch("/api/Dashboard/dashboards")
-
-    // for each dashboard recived
+    
+  
+    // for each dashboard received
     //dashboard value push
     for(let i=0; i<res.length; i++){
       dashboards.value.push({
@@ -26,11 +27,11 @@ const ownedDashboards = ref([])
       url: res[i].url,
       selected: false,  // Add a 'selected' property to track deletion
       cuid: res[i].cuid,
-      owner: res[i].owner
-  });
+      owner: res[i].Owner
+    });
     }
     ownedDashboards.value = dashboards.value.filter(dashboard => (dashboard.owner.cuid == mduser.value.cuid))
-    
+  
   }
 
 
@@ -59,6 +60,8 @@ const deleteSelectedDashboards = async () => {
   const selectedDashboards = dashboards.value.filter(dashboard => dashboard.selected)
   const selectedCount = dashboards.value.filter(dashboard => dashboard.selected).length
 
+  const selectedDashboardsCuids = selectedDashboards.map(dashboard => dashboard.cuid)
+
   if (selectedCount === 0) {
     alert('No dashboards selected for deletion.')
     return
@@ -68,14 +71,13 @@ const deleteSelectedDashboards = async () => {
   const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is NOT reversible`)
 
   if (confirmed) {
-    for (let i = 0; i < selectedCount; i++) {
-    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
-        method: 'DELETE', 
-        body: ({ cuid: selectedDashboards[i].cuid })
+    
+    const saveSucccess = await $fetch('/api/Dashboard/dashboards', {
+      method: 'DELETE',
+      body: ({ "cuids": selectedDashboardsCuids})
     })
     dashboards.value = dashboards.value.filter(dashboard => !dashboard.selected)
     ownedDashboards.value = ownedDashboards.value.filter(dashboard => !dashboard.selected)
-    }
   }
 }
 
