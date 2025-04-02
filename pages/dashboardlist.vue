@@ -16,7 +16,7 @@ const dashboards = ref([])
 const ownedDashboards = ref([])
   const getDashboards = async () => {
     // fetch list of dashboards
-    const res = await $fetch("/api/Dashboard/dashboards")
+    const res = await $fetch("/api/dashboard/dashboards")
 
     // for each dashboard recived
     //dashboard value push
@@ -47,7 +47,7 @@ const addDashboard = async () => {
     name: newName,
     selected: false
   })
-  const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
+  const saveSuccess  = await $fetch('/api/dashboard/dashboard', { 
         method: 'POST', // recall that POST = CREATE in CRUD!
         body: ({ name: newName })
     })
@@ -69,7 +69,7 @@ const deleteSelectedDashboards = async () => {
 
   if (confirmed) {
     for (let i = 0; i < selectedCount; i++) {
-    const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
+    const saveSuccess  = await $fetch('/api/dashboard/dashboard', { 
         method: 'DELETE', 
         body: ({ cuid: selectedDashboards[i].cuid })
     })
@@ -105,7 +105,7 @@ getDashboards()
                   div.font-semibold {{ dashboard.name }}
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
-                    NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
+                    NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
                   div.mt-2.size-full
                       input(type="checkbox" v-model="dashboard.selected")  
                       // Bind checkbox to 'selected'
@@ -115,7 +115,7 @@ getDashboards()
                   div.font-semibold {{ dashboard.name }}
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
-                    NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
+                    NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
                   div.mt-2.size-full(v-if="mduser.user_role == 'admin'")
                       input(type="checkbox" v-model="dashboard.selected")
                       // Bind checkbox to 'selected'
@@ -123,6 +123,6 @@ getDashboards()
 
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
-                NuxtLink(to="/EditDashboard/0")
+                NuxtLink(to="/edit-dashboard/0")
             button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
 </template>
