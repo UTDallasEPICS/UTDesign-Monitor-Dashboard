@@ -26,7 +26,7 @@ const dashboardCuid = match ? match[1] : null
 const slideIndex = match ? match[2] : null // need to convert this to an Int so Prisma doesn't complain
 
 
-const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', { // this is where the data is fetched for the slide on the page
+const { data: slideData } = await useFetch<Slide>('/api/slide/slide', { // this is where the data is fetched for the slide on the page
     method: 'GET',
     query: { 
       dashboardCuid : dashboardCuid, 
@@ -35,7 +35,7 @@ const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', { // this 
 })
 
 // list of all slides in this dashboard, needed for size so we can know if the current slide index is the last one. 
-const { data: slides } = await useFetch<Slide>('/api/Slide/slides', { // linter complaining here, ignore it
+const { data: slides } = await useFetch<Slide>('/api/slide/slides', { // linter complaining here, ignore it
   method: 'GET',
   query: {
     dashboardCuid: dashboardCuid
@@ -51,7 +51,7 @@ const duration = ref(slideData.value?.duration) || 10
 
 async function updateDuration() {
    duration.value = inputDuration.value
-   const saveSuccess  = await $fetch('/api/Slide/slide', { 
+   const saveSuccess  = await $fetch('/api/slide/slide', { 
          method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
          body: ({ slideData: slideData.value, duration: duration.value})
      })
@@ -59,7 +59,7 @@ async function updateDuration() {
 }
 
 async function createSlide() {
-  const saveSuccess = await $fetch('/api/Slide/slide', {
+  const saveSuccess = await $fetch('/api/slide/slide', {
     method: 'POST',
     body: ({ dashboardCuid: dashboardCuid })
   })
@@ -96,7 +96,7 @@ function updateWebsiteUrl() {
 }
 
 async function updateSlideType() {
-    const saveSuccess  = await $fetch('/api/Slide/slide', { 
+    const saveSuccess  = await $fetch('/api/slide/slide', { 
          method: 'PUT', 
          body: ({ slideData: slideData.value, newtype: selectedOption.value })
      })
