@@ -22,7 +22,7 @@ import type { User } from '@/types.d.ts'
 const mduser = useCookie<User>("mduser")
 const router = useRouter()
 
-let userNameRole: string = mduser.value.name + ` (${mduser.value.user_role})`;  // name isn't displayed
+let userNameRole: string = mduser.value.name + ` (${mduser.value.user_role})`;
 
 
 const logout = () => {  // Create a button that allows the user to logout
@@ -42,11 +42,11 @@ const items = ref<NavigationMenuItem[]>([
             icon: 'i-heroicons-user',
             to: '/profile',
         },
-        {
-            label: 'Logout',
-            icon: 'i-heroicons-lock-closed',
-            action: logout,
-        },
+        // {
+        //     label: 'Logout',
+        //     icon: 'i-heroicons-lock-closed',
+        //     action: logout,
+        // },
     ],
     [
         {

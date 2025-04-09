@@ -83,7 +83,14 @@ const deleteSelectedDashboards = async () => {
 getDashboards()
 </script>
 
-<template lang="pug">
+<!-- <template>
+  <div class="bg-yellow-200 p-8">
+    <h1>LAYOUT TEST</h1>
+    <slot />
+  </div>
+</template> -->
+
+<!-- <template lang="pug">
   div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
     div.bg-purple-200.p-10.bg-white.border.rounded-md.w-full.max-w-2xl
         div.flex.justify-between.mb-4
@@ -125,4 +132,4 @@ getDashboards()
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
                 NuxtLink(to="/EditDashboard/0")
             button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
-</template>
+</template> -->
