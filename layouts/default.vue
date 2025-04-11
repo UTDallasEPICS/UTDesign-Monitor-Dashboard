@@ -2,28 +2,48 @@
   <div class="m-4">
     <NavigationMenuRoot>
       <div>
-        <NavigationMenuList class="p-4 shadow-lg bg-gradient-to-b from-orange-50 to-white rounded-lg border-2 border-green-700 flex list-none">
-          <NavigationMenuItem
-            v-for="(item, index) in navItems"
-            :key="index"
-            class="nav-item"
-          >
-            <router-link
-              :to="item.href"
-              class="nav-link"
-              active-class="router-link-exact-active"
+        <NavigationMenuList
+          class="p-4 shadow-lg bg-gradient-to-b from-orange-50 to-white rounded-lg border-2 border-green-700 flex list-none w-full justify-between items-center"
+        >
+          <div class="flex">
+            <NavigationMenuItem
+              v-for="(item, index) in navItems"
+              :key="index"
+              class="nav-item"
             >
-              {{ item.title }}
-            </router-link>
-            <div class="absolute right-10 top-1/2 transform -translate-y-1/2">
-            <router-link
-              to="/profile"
-              class="user-name-role"
-            >
-              {{ userNameRole }}
-            </router-link>
-        </div>
-          </NavigationMenuItem>
+              <router-link
+                :to="item.href"
+                class="nav-link"
+                active-class="router-link-exact-active"
+              >
+                <Icon v-if="item.icon" :icon="item.icon" class="mr-2" />
+                {{ item.title }}
+              </router-link>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem v-if="isAdmin" class="nav-item">
+              <router-link
+                to="/current-users"
+                class="nav-link"
+                active-class="router-link-exact-active"
+              >
+                <Icon icon="clarity:administrator-solid" class="mr-2 text-xl" />
+                Admin
+              </router-link>
+            </NavigationMenuItem>
+          </div>
+
+          <div class="flex">
+            <NavigationMenuItem class="nav-item">
+              <router-link
+                to="/profile"
+                class="nav-link"
+                active-class="router-link-exact-active"
+              >
+                {{ userNameRole }}
+              </router-link>
+            </NavigationMenuItem>
+          </div>
         </NavigationMenuList>
         <main class="m-4 p-4 shadow-lg rounded-md border-2 border-green-700">
           <h1 class="text-3xl font-bold mb-4 text-green-700 text-stroke">{{ currentPageTitle }}</h1>
@@ -36,21 +56,23 @@
 
 <script setup lang="ts">
 import { NavigationMenuItem, NavigationMenuRoot, NavigationMenuList } from 'reka-ui'
+import { Icon } from '@iconify/vue'
 import type { User } from '@/types.d.ts'
 
 const mduser = useCookie<User>('mduser');
+const isAdmin = mduser.value.user_role === 'admin';
 const userNameRole = mduser.value.name + ` (${mduser.value.user_role})`;
 
 const navItems = [
-  { title: 'Dashboards', href: '/dashboardlist' },
-  { title: 'My Profile', href: '/profile' },
-  { title: 'Logout', href: '/api/login/logout' },
+  { title: 'Dashboards', href: '/dashboardlist', icon: 'line-md:folder-multiple' },
+  { title: 'My Profile', href: '/profile', icon: 'line-md:account' },
+  { title: 'Logout', href: '/api/login/logout', icon: 'line-md:log-out' },
 ]
 
 const route = useRoute()
 const currentPageTitle = computed(() => {
   const currentNavItem = navItems.find(item => item.href === route.path)
-  return currentNavItem ? currentNavItem.title : 'Page'
+  return currentNavItem ? currentNavItem.title : 'Admin'
 })
 </script>
 
@@ -79,7 +101,8 @@ const currentPageTitle = computed(() => {
 
 .router-link-exact-active {
   font-weight: bolder;
-  text-decoration: underline;
+  text-decoration: underline green;
+  text-decoration-thickness: 2px;
 }
 
 .text-stroke {
@@ -90,9 +113,5 @@ const currentPageTitle = computed(() => {
   padding: 0.5rem;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-}
-
-.user-name-role:hover {
-  color: rgb(79, 112, 91);
 }
 </style>
