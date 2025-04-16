@@ -55,7 +55,7 @@ async function updateDuration() {
          method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
          body: ({ slideData: slideData.value, duration: duration.value})
      })
-    console.log(2, saveSuccess)
+    console.log(saveSuccess)
   return saveSuccess
 }
 
@@ -74,6 +74,13 @@ const websiteUrl = ref('https://example.com');
 
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value;
+
+  const saveSuccess = $fetch('/api/Slide/slide', {
+    method: 'PUT',
+    body: ({ slideData: slideData.value, newURL: imageUrl.value })
+  });
+
+  console.log("Image URL updated:", imageUrl.value);
 }
 
 // Update video URL
@@ -89,6 +96,13 @@ function updateVideoLink() {
     videoLink.value = inputVideoUrl.value;
     isYouTube.value = false;
   }
+
+  const saveSuccess = $fetch('/api/Slide/slide', {
+    method: 'PUT',
+    body: ({ slideData: slideData.value, newURL: videoLink.value })
+  });
+
+  console.log("Video URL updated:", videoLink.value);
 }
 
 // Update website URL
@@ -98,14 +112,12 @@ async function updateWebsiteUrl() {
          method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
          body: ({ slideData: slideData.value, newURL: websiteUrl.value})
      })
-    console.log(1, saveSuccess)
+    console.log(saveSuccess)
   return saveSuccess
 }
 
 
 async function updateSlideType() {
-  console.log("Selected option:", selectedOption.value)
-
     const saveSuccess  = await $fetch('/api/Slide/slide', { 
          method: 'PUT', 
          body: ({ slideData: slideData.value, newtype: selectedOption.value, duration: duration.value})
