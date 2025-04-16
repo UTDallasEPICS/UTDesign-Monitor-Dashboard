@@ -34,9 +34,7 @@ model Slide {
   cuid          String    @id @default(cuid())
   index         Int       @default(1)
   dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
-  image         String    @default("") // The Strings are going to be URL's
-  video         String    @default("")
-  website       String    @default("")
+  url         String    @default("")
   dashboardCuid String
   duration      Int       @default(10)
   type          String    @default("image")

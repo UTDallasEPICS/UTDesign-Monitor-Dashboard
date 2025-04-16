@@ -5,7 +5,7 @@ export default defineEventHandler(async event => {
     const durationAsInt = parseInt(duration, 10)
         const result = await event.context.client.slide.update({ 
             where: { cuid: slideData.cuid },
-            data: { image: newURL || '', video: newURL || '', website: newURL || '', duration: durationAsInt || 10, type: newtype || '' }
+            data: { url: newURL || '', duration: durationAsInt || 10, type: newtype || '' }
         })
         return result;
 });

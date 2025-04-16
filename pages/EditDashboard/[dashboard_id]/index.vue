@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const previewUrl = ref("https://en.wikipedia.org/wiki/Main_Page"); // Set the initial preview URL here
@@ -15,6 +15,21 @@ const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
 const match = url.match(regex);
 const dashboardCuid = match ? match[1] : null
 
+const { data: slideData, pending, error } = useFetch('/api/Slide/slide', {
+  query: {
+    dashboardCuid: dashboardCuid,
+    index: 1,
+  },
+});
+
+watch(slideData, (newSlideData) => {
+  if (newSlideData?.url) {
+    console.log("Slide data loaded:", newSlideData.url);
+    previewUrl.value = newSlideData.url;
+  }
+});
+
+
 </script>
 
 <template lang="pug">
@@ -26,8 +41,7 @@ MDBody
             iframe.w-full.h-full.rounded-lg(:src="previewUrl" allow="fullscreen" frameborder="0")
         // Other buttons below
         div.buttons.flex.justify-between.mt-8.gap-4
-            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4.hover_bg-purple-300()
-                NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`") Edit
+            NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`" class="bg-purple-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center block hover:bg-purple-300") Edit
             div.relative.mr-4
                 button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-gray-300(@click="toggleDropdown") Other
                 // Dropdown Menu
@@ -35,7 +49,6 @@ MDBody
                     NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/post`") Post
                     NuxtLink.block.px-4.py-2.text.gray-700.hover_bg-gray-100(:to="`/Dashboard/${dashboardCuid}/1`") Preview
                     NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/rename`") Rename
-            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-red-300()
-                NuxtLink(:to="`/dashboardlist`") Delete
+            NuxtLink(:to="`/dashboardlist`" class="bg-red-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center hover:bg-red-300") Delete
 </template>
 
