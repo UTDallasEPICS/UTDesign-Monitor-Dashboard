@@ -10,13 +10,13 @@ const router = useRouter()
 const mduser = useCookie<User>('mduser');
 const isUser = computed(() => (mduser.value?.user_role == 'admin' || mduser.value?.user_role == 'user'))
 
-watchEffect(() => {
-  if (isUser) {
-    router.push('/dashboardlist');
+watch(isUser, (newVal) => {
+  if (newVal) {
+    router.push('/dashboardlist')
   } else {
     router.push('/')
   }
-});
+}, { immediate: true })
 </script>
 
 <template>

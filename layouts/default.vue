@@ -21,6 +21,17 @@
               </router-link>
             </NavigationMenuItem>
 
+            <NavigationMenuItem class="nav-item">
+              <button
+                class="nav-link"
+                @click="logout"
+              >
+                <Icon icon="line-md:log-out" class="mr-2" />
+                Logout
+              </button>
+            </NavigationMenuItem>
+
+
             <NavigationMenuItem v-if="isAdmin" class="nav-item">
               <router-link
                 to="/current-users"
@@ -62,18 +73,23 @@ import type { User } from '@/types.d.ts'
 const mduser = useCookie<User>('mduser');
 const isAdmin = mduser.value.user_role === 'admin';
 const userNameRole = mduser.value.name + ` (${mduser.value.user_role})`;
+const router = useRouter();
 
 const navItems = [
   { title: 'Dashboards', href: '/dashboardlist', icon: 'line-md:folder-multiple' },
   { title: 'My Profile', href: '/profile', icon: 'line-md:account' },
-  { title: 'Logout', href: '/api/login/logout', icon: 'line-md:log-out' },
 ]
 
 const route = useRoute()
 const currentPageTitle = computed(() => {
   const currentNavItem = navItems.find(item => item.href === route.path)
-  return currentNavItem ? currentNavItem.title : 'Admin'
+  return currentNavItem ? currentNavItem.title : 'Admin'  // change
 })
+
+const logout = async () => {
+  window.location.href = ('api/login/logout');
+  router.push('/');
+}
 </script>
 
 <style scoped>
@@ -113,5 +129,10 @@ const currentPageTitle = computed(() => {
   padding: 0.5rem;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+}
+
+.cursor-pointer {
+  pointer-events: all !important;
+  z-index: 9999;
 }
 </style>

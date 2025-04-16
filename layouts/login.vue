@@ -6,6 +6,7 @@
             Login
           </button>
         </a>
+        <p>Please sign in. If you don't have an account, you must be invited by UTDesign Staff.</p>
         <slot />
       </main>
     </div>
@@ -16,6 +17,8 @@ import type { User } from '@/types.d.ts'
 const mduser = useCookie<User>('mduser');
 import { computed } from 'vue'
 const isUser = computed(() => (mduser.value?.user_role == 'admin' || mduser.value?.user_role == 'user'))
+
+
 </script>
 
 <style scoped>

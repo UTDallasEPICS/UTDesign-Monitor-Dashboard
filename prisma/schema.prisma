@@ -25,6 +25,7 @@ model Dashboard {
   cuid     String   @id @default(cuid())
   name     String   @default("")
   owner    User     @relation(fields: [userCuid], references: [cuid])
+  preview  String   @default("")
   slides   Slide[]
   userCuid String
   Device   Device[]
