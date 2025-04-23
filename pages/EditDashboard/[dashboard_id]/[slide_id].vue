@@ -126,59 +126,60 @@ async function updateSlideType() {
 }
 
 </script>
-
 <template lang="pug">
-  div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
-    div.grid-cols-3.row-span-1.flex.justify-between.space-x-32
-      NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
-      NuxtLink(:to="`/EditDashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
+  MDBody
+    MDHeader
+    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
+      div.grid-cols-3.row-span-1.flex.justify-between.space-x-32
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
+        div.mb-8
+          label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
+          select#select-option.w-full.px-4.py-2.border.border-gray-300.rounded-lg(v-model="selectedOption" @change="updateSlideType")
+            option(value="") -- Select --
+            option(value="image") Image
+            option(value="video") Video
+            option(value="website") Website
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
+
       div.mb-8
-        label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
-        select#select-option.w-full.px-4.py-2.border.border-gray-300.rounded-lg(v-model="selectedOption" @change="updateSlideType")
-          option(value="") -- Select --
-          option(value="image") Image
-          option(value="video") Video
-          option(value="website") Website
-      NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
-      NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
-        button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
+        // Image Section
+        div(v-if="selectedOption === 'image'")
+          label(for="image-url" class="block text-lg font-semibold mb-2") Enter Image URL:
+          input#image-url(type="text" v-model="inputImageUrl" placeholder="Enter image URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
+          button.hover_bg-purple-300.transition(@click="updateImageUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold hover:bg-purple-300 transition") Submit
 
-    div.mb-8
-      // Image Section
-      div(v-if="selectedOption === 'image'")
-        label(for="image-url" class="block text-lg font-semibold mb-2") Enter Image URL:
-        input#image-url(type="text" v-model="inputImageUrl" placeholder="Enter image URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
-        button.hover_bg-purple-300.transition(@click="updateImageUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold hover:bg-purple-300 transition") Submit
+          div.mt-5
+            img(:src="imageUrl" alt="" class="w-48 h-auto rounded-lg border border-gray-300")
 
-        div.mt-5
-          img(:src="imageUrl" alt="" class="w-48 h-auto rounded-lg border border-gray-300")
+        // Video Section
+        div(v-if="selectedOption === 'video'")
+          label(for="video-url" class="block text-lg font-semibold mb-2") Enter Video URL:
+          input#video-url(type="text" v-model="inputVideoUrl" placeholder="Enter video or YouTube URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
+          button.hover_bg-purple-300.transition(@click="updateVideoLink" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold hover:bg-purple-300 transition") Submit
 
-      // Video Section
-      div(v-if="selectedOption === 'video'")
-        label(for="video-url" class="block text-lg font-semibold mb-2") Enter Video URL:
-        input#video-url(type="text" v-model="inputVideoUrl" placeholder="Enter video or YouTube URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
-        button.hover_bg-purple-300.transition(@click="updateVideoLink" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold hover:bg-purple-300 transition") Submit
+          div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
+            iframe(v-if="isYouTube" :src="videoLink" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
+            video(v-else autoplay loop muted controls class="absolute z-10 w-auto h-auto" :key="videoLink")
+              source(:src="videoLink" type="video/mp4")
 
-        div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
-          iframe(v-if="isYouTube" :src="videoLink" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
-          video(v-else autoplay loop muted controls class="absolute z-10 w-auto h-auto" :key="videoLink")
-            source(:src="videoLink" type="video/mp4")
+        // Website Section
+        div(v-if="selectedOption === 'website'" class="relative" @mouseenter="showDisclaimer = true" @mouseleave="showDisclaimer = false")
+          div.relative.flex.items-center.mb-2
+            span(v-if="showDisclaimer" class="absolute -top-6 left-0 bg-gray-100 border border-gray-300 rounded-lg px-4 py-2 shadow-lg text-gray-800 text-xs whitespace-nowrap") | Note: Websites with ".com" may not work properly.
+          label(for="website-url" class="block text-lg font-semibold mb-2") Enter Website URL:
+          input#website-url(type="text" v-model="inputWebsiteUrl" placeholder="Enter website URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
+          button.hover_bg-purple-300.transition(@click="updateWebsiteUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold hover:bg-purple-300 transition") Submit
 
-      // Website Section
-      div(v-if="selectedOption === 'website'" class="relative" @mouseenter="showDisclaimer = true" @mouseleave="showDisclaimer = false")
-        div.relative.flex.items-center.mb-2
-          span(v-if="showDisclaimer" class="absolute -top-6 left-0 bg-gray-100 border border-gray-300 rounded-lg px-4 py-2 shadow-lg text-gray-800 text-xs whitespace-nowrap") | Note: Websites with ".com" may not work properly.
-        label(for="website-url" class="block text-lg font-semibold mb-2") Enter Website URL:
-        input#website-url(type="text" v-model="inputWebsiteUrl" placeholder="Enter website URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
-        button.hover_bg-purple-300.transition(@click="updateWebsiteUrl" class="mt-4 bg-purple-200 px-4 py-2 rounded-lg text-base font-semibold hover:bg-purple-300 transition") Submit
-
-        div.mt-5.h-72
-          iframe(v-if="websiteUrl" :src="websiteUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
-    div.mb-8
-      label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
-      input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder="Enter in seconds")
-      button.hover_bg-purple-300.transition.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
+          div.mt-5.h-72
+            iframe(v-if="websiteUrl" :src="websiteUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
+      div.mb-8
+        label.block.text-lg.font-semibold.mb-2(for="slide-duration") Enter Slide Duration:
+        input#slide-duration.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="inputDuration" placeholder="Enter in seconds")
+        button.hover_bg-purple-300.transition.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="updateDuration") Submit
 </template>
