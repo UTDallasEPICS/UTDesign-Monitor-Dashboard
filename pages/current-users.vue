@@ -58,11 +58,11 @@ const UpdateUsers = async () => {
                 cuid: users[i].cuid,
                 name: users[i].name,
                 email: users[i].email,
-                user_role: users[i].user_role
+                user_role: users[i].role
             }
         })
     console.log(updatedUser)
-    }   
+    }  
   } 
 
 
@@ -100,8 +100,6 @@ getUsers();
 </script>
 
 <template lang="pug">
-MDBody
-    MDHeader
     div.p-10.bg-white.border.rounded-md.w-full.justify-center.items-center.flex.flex-col.space-y-4
         div.flex.items-center.gap-1.mb-1.px-5.py-2
             button.bg-green-200.hover_bg-green-300.h-10.rounded.w-24(@click="addUser") Add User 
