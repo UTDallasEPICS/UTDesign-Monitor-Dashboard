@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import {loginRedirectUrl} from "../login/auth0"
-import dashboardDelete from "./dashboard.delete";
+import dashboardDelete from "./dashboards.delete";
 
 
 const runtime = useRuntimeConfig()
