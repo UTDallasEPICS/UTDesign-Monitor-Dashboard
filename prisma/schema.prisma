@@ -33,12 +33,10 @@ model Dashboard {
 model Slide {
   cuid          String    @id @default(cuid())
   index         Int       @default(1)
-  image         String    @default("") // The Strings are going to be URL's
-  video         String    @default("")
-  website       String    @default("")
-  dashboardCuid String
+  url           String    @default("")
   duration      Int       @default(10)
   type          String    @default("image")
+  dashboardCuid String
   Dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
 }
 
