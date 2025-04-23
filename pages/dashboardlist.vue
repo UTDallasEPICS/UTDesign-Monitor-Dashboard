@@ -38,22 +38,46 @@ const ownedDashboards = ref([])
 
 // Function to add a new dashboard row
 const addDashboard = async () => {
-  const newIndex = dashboards.value.length + 1
-  const newName = `Dashboard ${newIndex}`
-  dashboards.value.push({
+  const newIndex = dashboards.value.length + 1;
+  const newName = `Dashboard ${newIndex}`;
+
+  const tempDashboard = {
     name: newName,
-    selected: false  // Add a 'selected' property to track deletion
-  })
-  ownedDashboards.value.push({
-    name: newName,
-    selected: false
-  })
-  const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
-        method: 'POST', // recall that POST = CREATE in CRUD!
-        body: ({ name: newName })
-    })
-  return saveSuccess
-}
+    selected: false,
+    cuid: null,
+  };
+
+  dashboards.value.push(tempDashboard);
+  ownedDashboards.value.push(tempDashboard);
+
+  try {
+    const saveSuccess = await $fetch('/api/Dashboard/dashboard', {
+      method: 'POST',
+      body: { name: newName },
+    });
+
+    // get updated dashboard list
+    const updatedDashboards = await $fetch('/api/Dashboard/dashboards');
+    dashboards.value = updatedDashboards.map((dashboard: any) => ({
+      name: dashboard.name,
+      url: dashboard.url,
+      selected: false, 
+      cuid: dashboard.cuid,
+      owner: dashboard.Owner,
+    }));
+
+    ownedDashboards.value = dashboards.value.filter(
+      (dashboard) => dashboard.owner.cuid === mduser.value.cuid
+    );
+  } catch (error) {
+    console.error('Failed to add dashboard:', error);
+
+    // remove temporary dashboard if failure
+    dashboards.value = dashboards.value.filter((dashboard) => dashboard !== tempDashboard);
+    ownedDashboards.value = ownedDashboards.value.filter((dashboard) => dashboard !== tempDashboard);
+    alert('Failed to add the dashboard. Please try again.');
+  }
+};
 
 // Function to delete selected dashboards with confirmation
 const deleteSelectedDashboards = async () => {
