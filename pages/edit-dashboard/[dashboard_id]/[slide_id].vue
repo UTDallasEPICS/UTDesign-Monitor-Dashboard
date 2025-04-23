@@ -26,7 +26,7 @@ const dashboardCuid = match ? match[1] : null
 const slideIndex = match ? match[2] : null // need to convert this to an Int so Prisma doesn't complain
 
 
-const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', { // this is where the data is fetched for the slide on the page
+const { data: slideData } = await useFetch<Slide>('/api/slide/slide', { // this is where the data is fetched for the slide on the page
     method: 'GET',
     query: { 
       dashboardCuid : dashboardCuid, 
@@ -35,7 +35,7 @@ const { data: slideData } = await useFetch<Slide>('/api/Slide/slide', { // this 
 })
 
 // list of all slides in this dashboard, needed for size so we can know if the current slide index is the last one. 
-const { data: slides } = await useFetch<Slide>('/api/Slide/slides', { // linter complaining here, ignore it
+const { data: slides } = await useFetch<Slide>('/api/slide/slides', { // linter complaining here, ignore it
   method: 'GET',
   query: {
     dashboardCuid: dashboardCuid
@@ -51,7 +51,7 @@ const inputUrl = ref('');
 
 async function updateDuration() {
    duration.value = inputDuration.value
-   const saveSuccess  = await $fetch('/api/Slide/slide', { 
+   const saveSuccess  = await $fetch('/api/slide/slide', { 
          method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
          body: ({ slideData: slideData.value, duration: duration.value})
      })
@@ -60,7 +60,7 @@ async function updateDuration() {
 }
 
 async function createSlide() {
-  const saveSuccess = await $fetch('/api/Slide/slide', {
+  const saveSuccess = await $fetch('/api/slide/slide', {
     method: 'POST',
     body: ({ dashboardCuid: dashboardCuid })
   })
@@ -75,7 +75,7 @@ const websiteUrl = ref('https://example.com');
 function updateImageUrl() {
   imageUrl.value = inputImageUrl.value;
 
-  const saveSuccess = $fetch('/api/Slide/slide', {
+  const saveSuccess = $fetch('/api/slide/slide', {
     method: 'PUT',
     body: ({ slideData: slideData.value, newURL: imageUrl.value })
   });
@@ -97,7 +97,7 @@ function updateVideoLink() {
     isYouTube.value = false;
   }
 
-  const saveSuccess = $fetch('/api/Slide/slide', {
+  const saveSuccess = $fetch('/api/slide/slide', {
     method: 'PUT',
     body: ({ slideData: slideData.value, newURL: videoLink.value })
   });
@@ -108,7 +108,7 @@ function updateVideoLink() {
 // Update website URL
 async function updateWebsiteUrl() {
   websiteUrl.value = inputWebsiteUrl.value
-   const saveSuccess  = await $fetch('/api/Slide/slide', { 
+   const saveSuccess  = await $fetch('/api/slide/slide', { 
          method: 'PUT', // RESTful APIs are generally for CRUD operations, which are basic database operations
          body: ({ slideData: slideData.value, newURL: websiteUrl.value})
      })
@@ -118,7 +118,7 @@ async function updateWebsiteUrl() {
 
 
 async function updateSlideType() {
-    const saveSuccess  = await $fetch('/api/Slide/slide', { 
+    const saveSuccess  = await $fetch('/api/slide/slide', { 
          method: 'PUT', 
          body: ({ slideData: slideData.value, newtype: selectedOption.value, duration: duration.value})
      })
@@ -127,13 +127,11 @@ async function updateSlideType() {
 
 </script>
 <template lang="pug">
-  MDBody
-    MDHeader
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
       div.grid-cols-3.row-span-1.flex.justify-between.space-x-32
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
         div.mb-8
           label(for="select-option" class="block text-lg font-semibold mb-2") Select Type:
@@ -142,9 +140,9 @@ async function updateSlideType() {
             option(value="image") Image
             option(value="video") Video
             option(value="website") Website
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
 
       div.mb-8
