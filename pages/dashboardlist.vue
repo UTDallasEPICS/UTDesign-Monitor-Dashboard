@@ -39,6 +39,7 @@
     >
       <div class="font-semibold mb-2">{{ dashboard.name }}</div>
       <img :src="getPreviewImage(dashboard)" alt="Dashboard Preview" class="w-full h-30" />
+      <p class="mt-2">Author: {{ dashboard.owner.name }}</p>
       <div class="flex items-center gap-4 mt-4">
         <NuxtLink class="custom-button" :to="`/Dashboard/${dashboard.cuid}`">
           <button class="flex justify-center items-center">
