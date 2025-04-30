@@ -1,9 +1,9 @@
 <template>
     <div>
       <div>
-        <p><strong>Name:</strong> {{ mduser?.name }}</p>
-        <p><strong>Email:</strong> {{ mduser?.email }}</p>
-        <p><strong>Role:</strong> {{ mduser?.user_role }}</p>
+        <p class="text-xl"><strong>Name:</strong> {{ mduser?.name }}</p>
+        <p class="text-xl"><strong>Email:</strong> {{ mduser?.email }}</p>
+        <p class="text-xl"><strong>Role:</strong> {{ mduser?.user_role }}</p>
       </div>
     </div>
   </template>

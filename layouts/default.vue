@@ -82,9 +82,21 @@ const navItems = [
 
 const route = useRoute()
 const currentPageTitle = computed(() => {
-  const currentNavItem = navItems.find(item => item.href === route.path)
-  return currentNavItem ? currentNavItem.title : 'Admin'  // change
-})
+  const path = route.path;
+  if (path.includes('/dashboardlist')) {
+    return 'Dashboards';
+  } else if (path.includes('/Dashboard')) {
+    return 'Dashboards';
+  } else if (path.includes('/EditDashboard')) {
+    return 'Edit';
+  } else if (path.includes('/profile')) {
+    return 'My Profile';
+  } else if (path.includes('/current-users')) {
+    return 'Admin';
+  } else {
+    return 'Unknown Page';
+  }
+});
 
 const logout = async () => {
   window.location.href = ('api/login/logout');

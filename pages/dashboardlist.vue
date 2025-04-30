@@ -1,6 +1,67 @@
+<template>
+  <div class="flex flex-wrap gap-4 items-center mb-6">
+    <div v-if="ownedDashboardsToggle" @click="toggle">
+      <button class="text-2xl font-semibold rounded-md flex items-center justify-center">
+        <Icon icon="fluent:arrow-sort-16-filled" class="mr-2 text-2xl" />
+        My Dashboards
+      </button>
+    </div>
+    <div v-if="!ownedDashboardsToggle" @click="toggle">
+      <button class="text-2xl font-semibold rounded-md flex items-center justify-center">
+        <Icon icon="fluent:arrow-sort-16-filled" class="mr-2 text-2xl" />
+        All Dashboards
+      </button>
+    </div>
+    <button class="custom-button flex items-center justify-center" @click="addDashboard">
+      <Icon icon="mingcute:add-fill" class="mr-2 text-xl" />
+      Add Dashboard
+      <NuxtLink to="/EditDashboard/0"></NuxtLink>
+    </button>
+    <button
+      class="custom-button flex items-center justify-center"
+      v-if="mduser.user_role == 'admin' || ownedDashboardsToggle"
+      @click="deleteSelectedDashboards"
+    >
+      <Icon icon="tabler:trash" class="mr-2 text-xl" />
+      Delete Selected
+    </button>
+  </div>
+
+  <div class="grid grid-cols-5 gap-4">
+    <div v-if="(ownedDashboardsToggle ? ownedDashboards : dashboards).length === 0" class="col-span-5 text-center">
+      No dashboards added yet.
+    </div>
+
+    <div
+      class="border p-4 bg-white rounded shadow-md w-full"
+      v-for="(dashboard, index) in (ownedDashboardsToggle ? ownedDashboards : dashboards)"
+      :key="index"
+    >
+      <div class="font-semibold mb-2">{{ dashboard.name }}</div>
+      <img :src="getPreviewImage(dashboard)" alt="Dashboard Preview" class="w-full h-30" />
+      <div class="flex items-center gap-4 mt-4">
+        <NuxtLink class="custom-button" :to="`/Dashboard/${dashboard.cuid}`">
+          <button class="flex justify-center items-center">
+            <Icon icon="heroicons:magnifying-glass" class="mr-2 text-xl" />
+            View
+          </button>
+        </NuxtLink>
+        <div
+          class="flex items-center gap-2"
+          v-if="mduser.user_role == 'admin' || ownedDashboardsToggle"
+        >
+          <input type="checkbox" class="w-4 h-4" v-model="dashboard.selected" />
+          <span>Delete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Dashboard, User } from '@/types.d.ts'
+import { Icon } from '@iconify/vue'
 
 const ownedDashboardsToggle = ref(true)
 const toggle = async () => { 
@@ -23,6 +84,7 @@ const ownedDashboards = ref([])
     for(let i=0; i<res.length; i++){
       dashboards.value.push({
       name: res[i].name,
+      preview: res[i].preview,
       url: res[i].url,
       selected: false,  // Add a 'selected' property to track deletion
       cuid: res[i].cuid,
@@ -51,6 +113,12 @@ const addDashboard = async () => {
         method: 'POST', // recall that POST = CREATE in CRUD!
         body: ({ name: newName })
     })
+
+  // Clear and update the dashboards to show preview
+  dashboards.value = []
+  ownedDashboards.value = []
+  await getDashboards()
+
   return saveSuccess
 }
 
@@ -79,50 +147,30 @@ const deleteSelectedDashboards = async () => {
   }
 }
 
+const defaultPreviewUrl = "https://images.unsplash.com/photo-1744614053463-491122164435?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
+// Update backend to allow users to add their preview
+const getPreviewImage = (dashboard: { preview: string }) => {
+  return dashboard.preview && dashboard.preview.trim() !== "" // Check if the user provided a non-empty string
+    ? dashboard.preview
+    : defaultPreviewUrl
+}
+
 //calling function
 getDashboards()
 </script>
 
-<template lang="pug">
-  div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
-    div.bg-purple-200.p-10.bg-white.border.rounded-md.w-full.max-w-2xl
-        div.flex.justify-between.mb-4
-            button.bg-gray-200.px-4.py-2.rounded.hover_bg-gray-300
-                NuxtLink(to="/") Back
-            div.bg-white.position_relative.hover_bg-fuchsia-100.rounded-full(v-if="ownedDashboardsToggle" @click="toggle")
-              button
-                MDUserIcon
-              button.text-xl.font-semibold.rounded-md() My Dashboards
-            div.bg-white.position_relative.hover_bg-fuchsia-100.rounded-full(v-if="!(ownedDashboardsToggle)" @click="toggle")
-              button
-                MDUsersIcon
-              button.text-xl.font-semibold.rounded-md() All Dashboards
-        div.grid.grid-cols-1.gap-6
-            div(v-if="dashboards.length === 0") No dashboards added yet.
+<style>
+    .custom-button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #447a58;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
 
-            div(v-if="ownedDashboardsToggle")
-              div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in ownedDashboards" :key="index")
-                  div.font-semibold {{ dashboard.name }}
-                  div 
-                  button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
-                    NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
-                  div.mt-2.size-full
-                      input(type="checkbox" v-model="dashboard.selected")  
-                      // Bind checkbox to 'selected'
-                      span Delete
-            div(v-else)
-              div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
-                  div.font-semibold {{ dashboard.name }}
-                  div 
-                  button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
-                    NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
-                  div.mt-2.size-full(v-if="mduser.user_role == 'admin'")
-                      input(type="checkbox" v-model="dashboard.selected")
-                      // Bind checkbox to 'selected'
-                      span Delete
-
-        div.mt-8.flex.justify-between
-            button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
-                NuxtLink(to="/EditDashboard/0")
-            button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
-</template>
+  .custom-button:hover {
+    background-color: #a5d5a7;
+    color: black;
+  }
+</style>

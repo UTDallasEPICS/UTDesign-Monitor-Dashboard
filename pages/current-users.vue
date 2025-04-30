@@ -1,9 +1,83 @@
+<template>
+  <div class="p-10 w-full justify-center items-center flex flex-col space-y-4">
+    <div class="flex items-center gap-1 mb-1 px-5 py-2">
+      <button class="custom-button flex items-center justify-center" @click="addUser">
+          <Icon icon="mingcute:add-fill" class="mr-2 text-xl" />
+          Add User
+      </button>
+      <button class="custom-button flex items-center justify-center" @click="deleteSelectedUser">
+          <Icon icon="tabler:trash" class="mr-2 text-xl" />
+          Delete Users
+      </button>
+      <button class="custom-button flex items-center justify-center" @click="UpdateUsers">
+          <Icon icon="line-md:confirm" class="mr-2 text-xl" />
+          Save
+      </button>
+    </div>
+
+    <div class="w-full overflow-y-auto h-full">
+      <table class="w-full text-left table-auto border-collapse">
+        <thead class="w-full">
+          <tr class="border border-green-700">
+            <th class="p-4">
+              <p class="text-2xl font-semibold">Name</p>
+            </th>
+            <th class="p-4">
+              <p class="text-2xl font-semibold">Email</p>
+            </th>
+            <th class="p-4">
+              <p class="text-2xl font-semibold">Role</p>
+            </th>
+            <th class="p-4"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            v-for="(user, index) in users"
+            :key="index"
+            class="bg-white border border-green-700"
+          >
+            <td class="p-2 border-t border-green-700">
+              <input class="bg-inherit w-full" v-model="user.name" placeholder="name" />
+            </td>
+            <td class="p-2 border-t border-green-700">
+              <input class="bg-inherit w-full" v-model="user.email" placeholder="example@gmail.com" />
+            </td>
+            <td class="p-2 border-t border-green-700 w-40">
+              <select v-model="user.role" class="bg-inherit w-full text-center px-2 py-1 text-base border border-green-700 rounded-sm">
+                <option v-for="option in roleOption" :value="option.value">{{ option.text }}</option>
+              </select>
+            </td>
+            <td class="p-2 border-t border-green-700 text-center">
+              <input type="checkbox" v-model="user.selected" />
+              <span class="ml-1">Delete</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
 <script setup lang= "ts">
 import { reactive, ref } from 'vue'
 import type { User } from '@/types.d.ts'
+import { Icon } from '@iconify/vue'
 
+const route = useRoute()
+const router = useRouter()
+const mduser = useCookie<User>('mduser');
+const isAdmin = computed(() => (mduser.value?.user_role == 'admin'))
 
-
+// If the admin changes their role to user, redirect to the main page
+watch(isAdmin, (newVal, oldVal) => {
+  // Only redirect if the role changed from admin to not-admin AND we're on the admin page
+  if (!newVal && oldVal && route.path === '/current-users') {
+    router.push('/dashboardlist');
+    setTimeout(() => window.location.reload(), 100);
+  }
+})
 
 //array of current users
 const users = reactive([]) 
@@ -99,39 +173,19 @@ getUsers();
 
 </script>
 
-<template lang="pug">
-    div.p-10.bg-white.border.rounded-md.w-full.justify-center.items-center.flex.flex-col.space-y-4
-        div.flex.items-center.gap-1.mb-1.px-5.py-2
-            button.bg-green-200.hover_bg-green-300.h-10.rounded.w-24(@click="addUser") Add User 
-            button.bg-red-200.hover_bg-red-300.h-10.rounded.w-24(@click="deleteSelectedUser") Delete Users
-            button.bg-blue-200.hover_bg-blue-300.h-10.rounded.w-24(@click="UpdateUsers") Save
-        div.w-full.overflow-y-auto.rounded-md.h-full()
-            table.bg-cyan-200.w-full.text-left.column-gap.table-auto()
-                thead.bg-fuchsia-200.w-full()
-                    tr
-                        th(class = "p-4 border-b")
-                            p(class = "text-2xl.font-semibold") Name 
-                        th(class ="p-4 border-b")
-                            p(class ="text-2xl.font-semibold") Email 
-                        th(class ="p-4 border-b")
-                            p(class ="text-2xl.font-semibold") Role  
-                        th(class = "p-4 border-b")
-                tbody
-                    tr(v-for= "(user, index) in users" :key= "index")
-                        td.p-4
-                            input.bg-inherit.w-full(v-model="user.name" placeholder = "name") 
-                        td.p-4
-                            input.bg-inherit.w-full(v-model="user.email" placeholder = "example@gmail.com") 
-                        td.p-4
-                            // This selection isn't actually updating anything inside of the user.role, meaning the frontend can't make the database update any user roles
-                            // TODO: Fix this
-                            select(v-model = "user.role")
-                                option(v-for= "option in roleOption" :value="option.value" ) {{ option.text }}
-                            div.selected
-                        td(class = "p-4")
-                            input.bg-inherit(type="checkbox" v-model="user.selected")
-                            span Delete
-</template>
+<style>
+    .custom-button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #447a58;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
 
+  .custom-button:hover {
+    background-color: #a5d5a7;
+    color: black;
+  }
+</style>
 
  
