@@ -43,7 +43,7 @@ model Slide {
 }
 
 model Device {
-  cuid          String    @id @default(cuid())
+  serialNumber   String    @id
   name          String    @default("Unnamed Device")
   dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
   dashboardCuid String

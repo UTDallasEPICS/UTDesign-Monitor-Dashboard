@@ -17,6 +17,8 @@ div.mt-7.gap-2.border-4.bg-fuchsia-100.border-gray-300.rounded-xl.shadow-2xl.fle
     button.px-4.py-2.shadow-2xl.bg-green-100.rounded-lg.hover_bg-green-200(v-if="!isLoggedIn") Login
   NuxtLink(to="/dashboardlist")
     button.px-4.py-2.shadow-2xl.bg-fuchsia-200.rounded-lg.hover_bg-fuchsia-300(v-if="isLoggedIn") Dashboards
+  NuxtLink(to="/devices")
+    button.px-4.py-2.shadow-2xl.bg-fuchsia-200.rounded-lg.hover_bg-fuchsia-300(v-if="isLoggedIn") Devices
   NuxtLink(to="/admin")
     button.px-4.py-2.shadow-2xl.bg-red-100.rounded-lg.hover_bg-red-300(v-if="isAdmin") Admin
   a(href="/api/login/logout") 

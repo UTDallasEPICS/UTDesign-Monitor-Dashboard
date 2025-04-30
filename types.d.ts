@@ -27,7 +27,7 @@ export interface Slide {
 }
 
 export interface Device {
-  cuid: string;
+  serialNumber: string;
   name:string;
   dashboardCuid: string;
   dashboard: Dashboard;
