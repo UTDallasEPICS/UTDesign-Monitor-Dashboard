@@ -99,7 +99,7 @@ const currentPageTitle = computed(() => {
 });
 
 const logout = async () => {
-  window.location.href = ('api/login/logout');
+  window.location.href = ('/api/login/logout');
   router.push('/');
 }
 </script>
