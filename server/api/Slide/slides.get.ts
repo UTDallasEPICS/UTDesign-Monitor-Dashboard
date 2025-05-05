@@ -13,7 +13,7 @@ export default defineEventHandler(async event => {
             const queryRes = await event.context.client.slide.findMany ({
                 where: { dashboardCuid: dashboard.cuid as string },
                 include: {
-                    dashboard: true
+                    Dashboard: true
                 }
             });
             return queryRes;

@@ -16,10 +16,7 @@ import { useRoute } from 'vue-router'
 
 const newName = ref('')
 const route = useRoute()
-const url = route.fullPath
-const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
-const match = url.match(regex);
-const dashboardCuid = match ? match[1] : null
+const dashboardCuid = route.params.dashboard_id
 async function updateNewName() {
     const saveSuccess  = await $fetch('/api/Dashboard/dashboard', { 
          method: 'PUT', 

@@ -17,7 +17,7 @@ export default defineEventHandler(async event => {
                     index: indexInt,
                 },
                 include: {
-                    dashboard: true
+                    Dashboard: true
                 }
             });
             return queryRes;

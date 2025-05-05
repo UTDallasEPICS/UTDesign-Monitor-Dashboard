@@ -8,12 +8,9 @@ const showDropdown = ref(false); // Toggle for dropdown visibility
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
-
 const route = useRoute()
-const url = route.fullPath
-const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
-const match = url.match(regex);
-const dashboardCuid = match ? match[1] : null
+const dashboardCuid = route.params.dashboard_id
+
 
 </script>
 
