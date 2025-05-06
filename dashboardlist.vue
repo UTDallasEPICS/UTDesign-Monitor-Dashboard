@@ -105,7 +105,7 @@ div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
           div.font-semibold {{ dashboard.name }}
           div 
             button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
-              NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
+              NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
           div.mt-2.size-full
             input(type="checkbox" v-model="dashboard.selected")  
             // Bind checkbox to 'selected'
@@ -114,7 +114,7 @@ div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
         div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in dashboards" :key="index")
           div.font-semibold {{ dashboard.name }}
           div 
-            NuxtLink(:to="`/dashboard/${dashboard.cuid}`")
+            NuxtLink(:to="`/Dashboard/${dashboard.cuid}`")
               button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300 View
           div.mt-2.size-full(v-if="mduser.user_role == 'admin'")
             input(type="checkbox" v-model="dashboard.selected")
@@ -123,6 +123,6 @@ div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
 
     div.mt-8.flex.justify-between
       button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
-        NuxtLink(to="/edit-dashboard/0")
+        NuxtLink(to="/EditDashboard/0")
       button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
 </template>

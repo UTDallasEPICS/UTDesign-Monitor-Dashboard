@@ -21,8 +21,8 @@ const dashboardCuid = match ? match[2] : null // It grabs EditDashboard for the 
     div.slide-button-container.flex.justify-center.items-center.mb-10
       iframe(:src="previewUrl" class="w-full h-full rounded-lg" allow="fullscreen" frameborder="0")
     div.buttons.flex.justify-between.mt-8
-        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}`")
+        NuxtLink(:to="`/EditDashboard/${dashboardCuid}`")
           button.bg-purple-200.px-12.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4 Edit
-        NuxtLink(:to="`/dashboard/${dashboardCuid}/0`")
+        NuxtLink(:to="`/Dashboard/${dashboardCuid}/0`")
           button.bg-green-200.px-12.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center Present
 </template>

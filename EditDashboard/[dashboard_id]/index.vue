@@ -11,7 +11,7 @@ function toggleDropdown() {
 
 const route = useRoute()
 const url = route.fullPath
-const regex = /\/edit-dashboard\/([a-zA-Z0-9]+)/;
+const regex = /\/EditDashboard\/([a-zA-Z0-9]+)/;
 const match = url.match(regex);
 const dashboardCuid = match ? match[1] : null
 
@@ -24,7 +24,7 @@ const dashboardCuid = match ? match[1] : null
       iframe.w-full.h-full.rounded-lg(:src="previewUrl" allow="fullscreen" frameborder="0")
     // Other buttons below
     div.buttons.flex.justify-between.mt-8.gap-4
-      NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/1`")
+      NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`")
         button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4.hover_bg-purple-300 Edit
       NuxtLink(:to="`/dashboardlist`")
         button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-red-300 Delete
@@ -32,7 +32,7 @@ const dashboardCuid = match ? match[1] : null
         button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-gray-300(@click="toggleDropdown") Other
         // Dropdown Menu
         div.absolute.bg-white.border.border-gray-300.rounded-lg.mt-2.shadow-lg.w-full.transition(v-if="showDropdown")
-          NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/post`") Post
-          NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/1`") Preview
-          NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/rename`") Rename
+          NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/post`") Post
+          NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/Dashboard/${dashboardCuid}/1`") Preview
+          NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/EditDashboard/${dashboardCuid}/rename`") Rename
 </template>
