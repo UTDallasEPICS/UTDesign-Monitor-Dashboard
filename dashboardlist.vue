@@ -104,8 +104,8 @@ div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
         div.border.p-6.bg-white.rounded.shadow-md.w-full(v-for="(dashboard, index) in ownedDashboards" :key="index")
           div.font-semibold {{ dashboard.name }}
           div 
-            button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
-              NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
+            NuxtLink(:to="`/Dashboard/${dashboard.cuid}`") View
+              button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
           div.mt-2.size-full
             input(type="checkbox" v-model="dashboard.selected")  
             // Bind checkbox to 'selected'
