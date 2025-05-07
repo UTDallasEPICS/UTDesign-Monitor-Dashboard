@@ -9,7 +9,6 @@ export default eventHandler(async event=> {
 try {
     const updateDashboard = await event.context.client.dashboard.update({
         where: { cuid: cuid },
-
         data: {
             name: name
         }
