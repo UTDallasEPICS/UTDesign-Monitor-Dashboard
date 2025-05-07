@@ -4,7 +4,7 @@
             label.block.text-lg.font-semibold.mb-2(for="dashboard-name") Enter New Name for Dashboard:
             input#dashboard-name.w-full.px-4.py-2.border.border-gray-300.rounded-lg(type="text" v-model="newName" placeholder="Enter Dashboard Name")
             button.mt-4.bg-purple-200.px-4.py-2.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="updateNewName")
-                NuxtLink(:to="`/EditDashboard/${dashboardCuid}`") Submit
+                NuxtLink(:to="`/edit-dashboard/${dashboardCuid}`") Submit
 </template>
     
 

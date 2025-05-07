@@ -122,7 +122,7 @@ function cancelEdit(){
 
     div.buttons.flex.justify-between.mt-8
       button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4()
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/1`") Edit
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/1`") Edit
       button.bg-green-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center()
-        NuxtLink(:to="`/Dashboard/${dashboardCuid}/0`") Present
+        NuxtLink(:to="`/dashboard/${dashboardCuid}/0`") Present
 </template>

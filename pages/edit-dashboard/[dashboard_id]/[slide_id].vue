@@ -127,13 +127,13 @@ function cancelEdit() {
     div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
       h1 Slide {{slideIndex}} of {{lastIndex}}
       div.grid-cols-3.row-span-1.flex.justify-between.space-x-64
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
-        NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
           button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
 
       div(v-if="slideType === 'video'" class = "w-full h-96")
@@ -201,9 +201,9 @@ function cancelEdit() {
 
       div.flex.items-center.space-x-8.mb-4
         div(v-if="lastIndex > 1").mb-8 
-          NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${slideIndex-1}`" v-if="slideIndex > 1")
+          NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${slideIndex-1}`" v-if="slideIndex > 1")
             button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="deleteSlide") Delete Slide
-          NuxtLink(:to="`/EditDashboard/${dashboardCuid}/${slideIndex+1}`" v-if="slideIndex == 1")
+          NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${slideIndex+1}`" v-if="slideIndex == 1")
             button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="deleteSlide") Delete Slide 
     
 
