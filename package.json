@@ -22,7 +22,7 @@
     "pug": "^3.0.3",
     "reka-ui": "^2.2.0",
     "sqlite3": "^5.1.7",
-    "tailwind": "^4.0.0",
+    "tailwind": "^2.3.1",
     "vue": "latest",
     "vue-router": "latest",
     "vue3-carousel-nuxt": "^1.1.5"

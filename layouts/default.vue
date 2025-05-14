@@ -78,6 +78,7 @@ const router = useRouter();
 const navItems = [
   { title: 'Dashboards', href: '/dashboardlist', icon: 'line-md:folder-multiple' },
   { title: 'My Profile', href: '/profile', icon: 'line-md:account' },
+  {title: 'Devices' , href: '/devices', icon: 'mdi:raspberrypi' },
 ]
 
 const route = useRoute()
@@ -93,6 +94,8 @@ const currentPageTitle = computed(() => {
     return 'My Profile';
   } else if (path.includes('/current-users')) {
     return 'Admin';
+  } else if (path.includes('/devices')) {
+    return 'Devices';
   } else {
     return 'Unknown Page';
   }

@@ -10,7 +10,7 @@ export default defineEventHandler(async event => {
         const {cuid} = getQuery(event)
             const devices = await event.context.client.device.findMany ({
                 include: { 
-                    dashboard: true 
+                    Dashboard: true 
                 }
             });
             
