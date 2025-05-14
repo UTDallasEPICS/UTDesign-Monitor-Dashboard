@@ -129,14 +129,10 @@ function cancelEdit() {
       h1.text-center.text-2xl.font-bold.mb-4 Slide {{slideIndex}} of {{lastIndex}}
   
       div.grid-cols-3.row-span-1.flex.justify-between.space-x-4
-        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition Previous
-        NuxtLink(:to="`/dashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition Back
-        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide") New Slide
-        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition Next
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" class="mt-4 bg-purple-200 px-4 py-1 rounded-lg text-base font-semibold hover:bg-purple-300 transition" v-if="slideIndex > 1") Previous
+        NuxtLink(:to="`/dashboard/${dashboardCuid}`" v-if="slideIndex <= 1" class="mt-4 bg-purple-200 px-4 py-1 rounded-lg text-base font-semibold hover:bg-purple-300 transition inline-block text-center") Back
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex" @click="createSlide" class="mt-4 bg-purple-200 px-4 py-1 rounded-lg text-base font-semibold hover:bg-purple-300 transition inline-block text-center") New Slide
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex" class="mt-4 bg-purple-200 px-4 py-1 rounded-lg text-base font-semibold hover:bg-purple-300 transition inline-block text-center") Next
   
       div(v-if="slideType === 'video'" class="w-full h-96")
         div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
