@@ -28,8 +28,11 @@ const ownedDashboards = ref([])
       cuid: res[i].cuid,
       owner: res[i].Owner
     });
+      owner: res[i].Owner
+    });
     }
     ownedDashboards.value = dashboards.value.filter(dashboard => (dashboard.owner.cuid == mduser.value.cuid))
+  
   
   }
 
@@ -85,6 +88,8 @@ const deleteSelectedDashboards = async () => {
 
   const selectedDashboardsCuids = selectedDashboards.map(dashboard => dashboard.cuid)
 
+  const selectedDashboardsCuids = selectedDashboards.map(dashboard => dashboard.cuid)
+
   if (selectedCount === 0) {
     alert('No dashboards selected for deletion.')
     return
@@ -131,6 +136,7 @@ getDashboards()
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
                     NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
+                    NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
                   div.mt-2.size-full
                       input(type="checkbox" v-model="dashboard.selected")  
                       // Bind checkbox to 'selected'
@@ -141,6 +147,7 @@ getDashboards()
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
                     NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
+                    NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
                   div.mt-2.size-full(v-if="mduser.user_role == 'admin'")
                       input(type="checkbox" v-model="dashboard.selected")
                       // Bind checkbox to 'selected'
@@ -148,6 +155,7 @@ getDashboards()
 
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
+                NuxtLink(to="/edit-dashboard/0")
                 NuxtLink(to="/edit-dashboard/0")
             button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
 </template>

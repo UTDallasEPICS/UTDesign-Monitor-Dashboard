@@ -8,12 +8,16 @@ const showDropdown = ref(false); // Toggle for dropdown visibility
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
-
 const route = useRoute()
+<<<<<<< HEAD
 const url = route.fullPath
 const regex = /\/edit-dashboard\/([a-zA-Z0-9]+)/;
 const match = url.match(regex);
 const dashboardCuid = match ? match[1] : null
+=======
+const dashboardCuid = route.params.dashboard_id
+
+>>>>>>> EditDashboardPageRedesign
 
 const { data: slideData, pending, error } = useFetch('/api/slide/slide', {
   query: {
@@ -39,7 +43,12 @@ watch(slideData, (newSlideData) => {
             iframe.w-full.h-full.rounded-lg(:src="previewUrl" allow="fullscreen" frameborder="0")
         // Other buttons below
         div.buttons.flex.justify-between.mt-8.gap-4
+<<<<<<< HEAD
             NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/1`" class="bg-purple-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center block hover:bg-purple-300") Edit
+=======
+            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4.hover_bg-purple-300()
+                NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/1`") Edit
+>>>>>>> EditDashboardPageRedesign
             div.relative.mr-4
                 button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-gray-300(@click="toggleDropdown") Other
                 // Dropdown Menu
@@ -47,6 +56,11 @@ watch(slideData, (newSlideData) => {
                     NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/post`") Post
                     NuxtLink.block.px-4.py-2.text.gray-700.hover_bg-gray-100(:to="`/dashboard/${dashboardCuid}/1`") Preview
                     NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/rename`") Rename
+<<<<<<< HEAD
             NuxtLink(:to="`/dashboardlist`" class="bg-red-200 px-8 py-4 rounded-lg text-xl font-semibold w-full text-center hover:bg-red-300") Delete
+=======
+            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-red-300()
+                NuxtLink(:to="`/dashboardlist`") Delete
+>>>>>>> EditDashboardPageRedesign
 </template>
 

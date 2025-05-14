@@ -7,7 +7,7 @@ export default defineEventHandler(async event => {
     const queryRes = await event.context.client.dashboard.findUnique({
         where: { cuid: cuid as string},
       include: {
-        owner: true // this is the many to one relationship Dashboards have with Users (owner)
+        Owner: true // this is the many to one relationship Dashboards have with Users (owner)
     }
   });
     return queryRes;
