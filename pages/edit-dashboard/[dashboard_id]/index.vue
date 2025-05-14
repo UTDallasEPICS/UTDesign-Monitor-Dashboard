@@ -1,3 +1,44 @@
+<template>
+    <div class="flex justify-center gap-x-4 mt-4 mb-8">
+        <NuxtLink class="custom-button flex items-center justify-center px-12 py-6 text-2xl" :to="`/edit-dashboard/${dashboardCuid}/1`">
+            <button>
+                Edit
+            </button>
+        </NuxtLink>
+        
+        <div class="relative">
+            <button class="custom-button flex items-center justify-center px-12 py-6 text-2xl" @click="toggleDropdown">
+                Other
+            </button>
+            
+            <div v-if="showDropdown" class="absolute left-1/2 -translate-x-1/2 w-max bg-white border border-gray-300 rounded-lg mt-2 shadow-lg w-full transition">
+                <NuxtLink class="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-2xl" :to="`/edit-dashboard/${dashboardCuid}/post`">
+                    Post
+                </NuxtLink>
+                <NuxtLink class="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-2xl" :to="`/dashboard/${dashboardCuid}/1`">
+                    Preview
+                </NuxtLink>
+                <NuxtLink class="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-2xl" :to="`/edit-dashboard/${dashboardCuid}/rename`">
+                    Rename
+                </NuxtLink>
+            </div>
+        </div>
+
+        <NuxtLink class="custom-button flex items-center justify-center px-12 py-6 text-2xl" :to="`/dashboardlist`">
+            <button>
+                Delete
+            </button>
+        </NuxtLink>
+    </div>
+
+    <div class="w-2/3 mx-auto border-4 border-gray-300">
+        <div>
+            <iframe class="h-[70vh] w-full" :src="previewUrl" allow="fullscreen" frameborder="0"></iframe>
+        </div>
+
+    </div>
+</template>
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -14,23 +55,21 @@ const dashboardCuid = route.params.dashboard_id
 
 </script>
 
-<template lang="pug">
-    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.justify-center.flex.flex-col.space-y-4
-        // this is a preview of the slide
-        div.slide-button-container.flex.justify-center.items-center.mb-10
-            iframe.w-full.h-full.rounded-lg(:src="previewUrl" allow="fullscreen" frameborder="0")
-        // Other buttons below
-        div.buttons.flex.justify-between.mt-8.gap-4
-            button.bg-purple-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.mr-4.hover_bg-purple-300()
-                NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/1`") Edit
-            div.relative.mr-4
-                button.bg-gray-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-gray-300(@click="toggleDropdown") Other
-                // Dropdown Menu
-                div.absolute.bg-white.border.border-gray-300.rounded-lg.mt-2.shadow-lg.w-full.transition(v-if="showDropdown")
-                    NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/post`") Post
-                    NuxtLink.block.px-4.py-2.text.gray-700.hover_bg-gray-100(:to="`/dashboard/${dashboardCuid}/1`") Preview
-                    NuxtLink.block.px-4.py-2.text-gray-700.hover_bg-gray-100(:to="`/edit-dashboard/${dashboardCuid}/rename`") Rename
-            button.bg-red-200.px-8.py-4.rounded-lg.text-xl.font-semibold.w-full.text-center.hover_bg-red-300()
-                NuxtLink(:to="`/dashboardlist`") Delete
-</template>
+<style>
+    .custom-button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #447a58;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
 
+  .custom-button:hover {
+    background-color: #a5d5a7;
+    color: black;
+  }
+
+  div > a:hover {
+  background-color: rgb(215, 213, 213);
+}
+</style>

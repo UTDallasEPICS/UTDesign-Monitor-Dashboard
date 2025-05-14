@@ -124,22 +124,24 @@ function cancelEdit() {
 </script>
 
 <template lang="pug">
-    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
-      h1 Slide {{slideIndex}} of {{lastIndex}}
-      div.grid-cols-3.row-span-1.flex.justify-between.space-x-64
+  div.h-screen.overflow-y-auto.px-4.flex.justify-center.items-start.pt-8
+    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-8.shadow-2xl.flex.flex-col.space-y-4
+      h1.text-center.text-2xl.font-bold.mb-4 Slide {{slideIndex}} of {{lastIndex}}
+  
+      div.grid-cols-3.row-span-1.flex.justify-between.space-x-4
         NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${(parseInt(slideIndex, 10) - 1)}`" v-if="slideIndex > 1")
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex > 1") Previous
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition Previous
         NuxtLink(:to="`/dashboard/${dashboardCuid}`" v-if="slideIndex <= 1")
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex <= 1") Back
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition Back
         NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex == lastIndex") 
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide" v-if="slideIndex == lastIndex") New Slide
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(@click="createSlide") New Slide
         NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${parseInt(slideIndex) + 1}`" v-if="slideIndex != lastIndex")
-          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition(v-if="slideIndex != lastIndex") Next
-
-      div(v-if="slideType === 'video'" class = "w-full h-96")
+          button.mt-4.bg-purple-200.px-4.py-1.rounded-lg.text-base.font-semibold.hover_bg-purple-300.transition Next
+  
+      div(v-if="slideType === 'video'" class="w-full h-96")
         div.relative.flex.items-center.justify-center.h-64.overflow-hidden.mt-8
-            iframe(:src="slideUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
-    
+          iframe(:src="slideUrl" class="w-full h-full border border-gray-300 rounded-lg" allowfullscreen)
+  
       div(v-if="slideType === 'image'")
         div.mt-8.w-full.h-72.flex.items-center.justify-center.overflow-hidden
           img(
@@ -147,16 +149,16 @@ function cancelEdit() {
             alt=""
             class="object-contain w-full h-full rounded-lg border border-gray-30"
           )
-
-      div(v-if="slideType === 'website'" class = "w-full h-96")
+  
+      div(v-if="slideType === 'website'" class="w-full h-96")
         div.w-full.h-full.flex.items-center.justify-center.overflow-hidden
           iframe(
-          :src="slideUrl"
-          class="object-contain w-full h-full rounded-lg border border-gray-300 "
-          style="width: 100%; height: 80%;"
-          allowfullscreen
-        )
-    div.bg-white.border-4.border-gray-300.rounded-xl.w-full.max-w-2xl.p-16.shadow-2xl.items-center.flex.flex-col.space-y-4
+            :src="slideUrl"
+            class="object-contain w-full h-full rounded-lg border border-gray-300"
+            style="width: 100%; height: 80%;"
+            allowfullscreen
+          )
+  
       div.flex.items-center.space-x-8.text-gray-500.text-sm.mb-4(v-if="!editing")
         div
           span.font-semibold.text-gray-700 Duration:
@@ -165,46 +167,46 @@ function cancelEdit() {
           span.font-semibold.text-gray-700 Slide type:
           span.ml-2.capitalize {{ slideType }}
         button.ml-8(
-        class="bg-purple-200 hover:bg-purple-300 transition px-4 py-2 rounded-lg text-base font-semibold"
-        @click="startEdit"
+          class="bg-purple-200 hover:bg-purple-300 transition px-4 py-2 rounded-lg text-base font-semibold"
+          @click="startEdit"
         ) Edit
+  
       div(v-else)
-        div.flex.items-center.space-x-8.mb-4
-          label.block.text-sm.font-semibold.mb-1(for="edit-duration") Duration (seconds):
-          input#w-edit-duration.w-24.px-2.py-1.border.border-gray-300.rounded(
-          class="focus:ring focus:ring-purple-300"
-          type="number"
-          min="1"
-          v-model="editDuration"
-          )
-        div.flex.items-center.space-x-8.mb-4
-          label.block.text-sm.font-semibold.mb-1(for="edit-slide-type") Slide Type:
-          select#w-edit-slide-type.w-32.px-2.py-1.border.border-gray-300.rounded(
-          class="focus:ring focus:ring-purple-300"
-          v-model="editSlideType"
-          )
-            option(value="image") Image
-            option(value="video") Video
-            option(value="website") Website
-        div.flex.items-center.space-x-8.mb-4
-          div
-            label(v-if="editSlideType === 'image'" for="url" class="block text-sm font-semibold mb-1") Enter Image URL:
-            label(v-if="editSlideType === 'video'" for="url" class="block text-sm font-semibold mb-1") Enter Video URL:
-            div(v-if="editSlideType === 'website'" class="relative" @mouseenter="showDisclaimer = true" @mouseleave="showDisclaimer = false").relative.flex.items-center.mb-2
-              span(v-if="showDisclaimer" class="absolute -top-6 left-0 bg-gray-100 border border-gray-300 rounded-lg px-4 py-2 shadow-lg text-gray-800 text-xs whitespace-nowrap") | Note: Websites with ".com" may not work properly.
-            label(v-if="editSlideType === 'website'" for="url" class="block text-sm font-semibold mb-1") Enter Website URL:
-            input#url(type="text" v-model="editUrl" placeholder="Enter URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
-      
-        div.flex.items-center.space-x-8.mb-4
-          button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click = "saveEdit") Save
-          button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click = "cancelEdit") Cancel
-
-      div.flex.items-center.space-x-8.mb-4
-        div(v-if="lastIndex > 1").mb-8 
-          NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${slideIndex-1}`" v-if="slideIndex > 1")
-            button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="deleteSlide") Delete Slide
-          NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${slideIndex+1}`" v-if="slideIndex == 1")
-            button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="deleteSlide") Delete Slide 
-    
-
+        div.flex.flex-col.items-center.space-y-4.w-full
+          div.flex.items-center.space-x-8.mb-4
+            label.block.text-sm.font-semibold.mb-1(for="edit-duration") Duration (seconds):
+            input#w-edit-duration.w-24.px-2.py-1.border.border-gray-300.rounded(
+              class="focus:ring focus:ring-purple-300"
+              type="number"
+              min="1"
+              v-model="editDuration"
+            )
+          div.flex.items-center.space-x-8.mb-4
+            label.block.text-sm.font-semibold.mb-1(for="edit-slide-type") Slide Type:
+            select#w-edit-slide-type.w-32.px-2.py-1.border.border-gray-300.rounded(
+              class="focus:ring focus:ring-purple-300"
+              v-model="editSlideType"
+            )
+              option(value="image") Image
+              option(value="video") Video
+              option(value="website") Website
+  
+          div.flex.items-center.space-x-8.mb-4
+            div
+              label(v-if="editSlideType === 'image'" for="url" class="block text-sm font-semibold mb-1") Enter Image URL:
+              label(v-if="editSlideType === 'video'" for="url" class="block text-sm font-semibold mb-1") Enter Video URL:
+              label(v-if="editSlideType === 'website'" for="url" class="block text-sm font-semibold mb-1") Enter Website URL:
+              input#url(type="text" v-model="editUrl" placeholder="Enter URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-purple-300")
+  
+          div.flex.items-center.space-x-8.mb-4
+            button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="saveEdit") Save
+            button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="cancelEdit") Cancel
+            div.flex.items-center.space-x-8.mb-4
+      div(v-if="lastIndex > 1").mb-8
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${slideIndex-1}`" v-if="slideIndex > 1")
+          button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="deleteSlide") Delete Slide
+        NuxtLink(:to="`/edit-dashboard/${dashboardCuid}/${slideIndex+1}`" v-if="slideIndex == 1")
+          button.hover_bg-purple-300.transition.mt-4.bg-red-200.px-4.py-2.rounded-lg.text-base.font-semibold(@click="deleteSlide") Delete Slide 
+  
   </template>
+  

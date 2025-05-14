@@ -24,6 +24,7 @@ model User {
 model Dashboard {
   cuid     String   @id @default(cuid())
   name     String   @default("")
+  preview  String   @default("")
   slides   Slide[]
   userCuid String
   Device   Device[]

@@ -1,7 +1,5 @@
-<template lang = "pug">
-<div>
-MDBody
-    MDHeader
-    <NuxtPage/>
-</div>
+<template>
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
 </template>
