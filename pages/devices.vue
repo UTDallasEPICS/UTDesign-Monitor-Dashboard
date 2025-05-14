@@ -25,19 +25,34 @@ const getDashboards = async () => {
   dashboards.value = res
 }
 
+// Get dashboard name
+const getDashboardName = (dashboardCuid: string | null) => {
+  const dashboard = dashboards.value.find((dash) => dash.cuid === dashboardCuid);
+  return dashboard ? dashboard.name : null;
+};
+
 // Update dashboard assignment for a device
 const updateDeviceDashboard = async (serialNumber: string) => {
-  const dashboardCuid = selectedDashboards.value[serialNumber]
-  await $fetch('/api/device/device', {
-    method: 'PUT',
-    body: { serialNumber, dashboardCuid }
-  })
-  alert('Device updated!')
-}
+  const dashboardCuid = selectedDashboards.value[serialNumber];
+  try {
+    await $fetch('/api/device/device', {
+      method: 'PUT',
+      body: { serialNumber, dashboardCuid },
+    });
+    alert('Device updated!');
+
+    // Refresh the devices list to get the updated dashboard name
+    await getDevices();
+  } catch (error) {
+    console.error('Failed to update device:', error);
+    alert('Failed to update the device. Please try again.');
+  }
+};
 
 // Initial data fetch
 await getDevices()
 await getDashboards()
+await getDashboardName()
 </script>
 
 <template lang="pug">
@@ -55,7 +70,7 @@ div.min-h-screen.w-screen.items-center.flex.flex-col.space-y-4
         div.text-sm.text-gray-600 Serial: {{ device.serialNumber }}
         div.mt-2
           span Assigned Dashboard:
-          span.font-bold.ml-1 {{ device.dashboard?.name || 'None' }}
+          span.font-bold.ml-1 {{ getDashboardName(device.dashboardCuid) || 'None' }}
         div.mt-2
           label.block.mb-1 Select Dashboard:
           select.border.rounded.p-2(v-model="selectedDashboards[device.serialNumber]" @change="updateDeviceDashboard(device.serialNumber)")
