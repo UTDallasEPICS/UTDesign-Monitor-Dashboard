@@ -28,7 +28,6 @@ model Dashboard {
   userCuid String
   Device   Device[]
   Owner    User     @relation(fields: [userCuid], references: [cuid])
-  Owner    User     @relation(fields: [userCuid], references: [cuid])
 }
 
 model Slide {
@@ -45,6 +44,5 @@ model Device {
   cuid          String    @id @default(cuid())
   name          String    @default("Unnamed Device")
   dashboardCuid String
-  Dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
   Dashboard     Dashboard @relation(fields: [dashboardCuid], references: [cuid])
 }

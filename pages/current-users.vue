@@ -9,7 +9,7 @@ import type { User } from '@/types.d.ts'
 const users = reactive([]) 
 const getUsers = async () => {
     //fetch
-    const res = await $fetch("/api/User/users")
+    const res = await $fetch("/api/user/users")
     for(let i = 0; i < res.length; i++){
         users.push({
         cuid: res[i]?.cuid,
@@ -36,7 +36,7 @@ const addUser = async () => {
 
 //creates user in database 
 
-    const saveUser = await $fetch("/api/User/user", {
+    const saveUser = await $fetch("/api/user/user", {
         method: 'POST',
         body: 
          {email: newUser.email}
@@ -52,7 +52,7 @@ const roleOption = ref([
 
 const UpdateUsers = async () => {
     for (let i = 0; i < users.length; i++) {
-        const updatedUser = await $fetch("/api/User/user", {
+        const updatedUser = await $fetch("/api/user/user", {
             method: 'PUT',
             body: {
                 cuid: users[i].cuid,
@@ -82,7 +82,7 @@ const deleteSelectedUser = async () => {
 
   if (confirmed) {
     for (let i = 0; i < selectedCount; i++) {
-    const saveSuccess  = await $fetch('/api/User/user', { 
+    const saveSuccess  = await $fetch('/api/user/user', { 
         method: 'DELETE', 
         body: ({ email: selectedUsers[i].email })
     })

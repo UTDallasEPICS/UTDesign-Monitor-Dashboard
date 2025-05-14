@@ -14,28 +14,28 @@ const mduser = useCookie<User>('mduser');
 // Reactive array to store dashboards (start with an empty array)
 const dashboards = ref([])
 const ownedDashboards = ref([])
-  const getDashboards = async () => {
-    // fetch list of dashboards
-    const res = await $fetch("/api/dashboard/dashboards")
+const getDashboards = async () => {
+  // Clear the current dashboard lists
+  dashboards.value = [];
+  ownedDashboards.value = [];
 
-    // for each dashboard recived
-    //dashboard value push
-    for(let i=0; i<res.length; i++){
-      dashboards.value.push({
+  // Fetch the list of dashboards
+  const res = await $fetch("/api/dashboard/dashboards");
+
+  // Populate the dashboards array
+  for (let i = 0; i < res.length; i++) {
+    dashboards.value.push({
       name: res[i].name,
       url: res[i].url,
-      selected: false,  // Add a 'selected' property to track deletion
+      selected: false, // Add a 'selected' property to track deletion
       cuid: res[i].cuid,
-      owner: res[i].Owner
+      owner: res[i].Owner,
     });
-      owner: res[i].Owner
-    });
-    }
-    ownedDashboards.value = dashboards.value.filter(dashboard => (dashboard.owner.cuid == mduser.value.cuid))
-  
-  
   }
 
+  // Filter owned dashboards
+  ownedDashboards.value = dashboards.value.filter(dashboard => dashboard.owner.cuid === mduser.value.cuid);
+}
 
 
 // Function to add a new dashboard row
@@ -43,71 +43,46 @@ const addDashboard = async () => {
   const newIndex = dashboards.value.length + 1;
   const newName = `Dashboard ${newIndex}`;
 
-  const tempDashboard = {
-    name: newName,
-    selected: false,
-    cuid: null,
-  };
+  // Add the new dashboard to the backend
+  const saveSuccess = await $fetch('/api/dashboard/dashboard', { 
+    method: 'POST', // POST = CREATE in CRUD
+    body: { name: newName },
+  });
 
-  dashboards.value.push(tempDashboard);
-  ownedDashboards.value.push(tempDashboard);
-
-  try {
-    const saveSuccess = await $fetch('/api/dashboard/dashboard', {
-      method: 'POST',
-      body: { name: newName },
-    });
-
-    // get updated dashboard list
-    const updatedDashboards = await $fetch('/api/dashboard/dashboards');
-    dashboards.value = updatedDashboards.map((dashboard: any) => ({
-      name: dashboard.name,
-      url: dashboard.url,
-      selected: false, 
-      cuid: dashboard.cuid,
-      owner: dashboard.Owner,
-    }));
-
-    ownedDashboards.value = dashboards.value.filter(
-      (dashboard) => dashboard.owner.cuid === mduser.value.cuid
-    );
-  } catch (error) {
-    console.error('Failed to add dashboard:', error);
-
-    // remove temporary dashboard if failure
-    dashboards.value = dashboards.value.filter((dashboard) => dashboard !== tempDashboard);
-    ownedDashboards.value = ownedDashboards.value.filter((dashboard) => dashboard !== tempDashboard);
-    alert('Failed to add the dashboard. Please try again.');
+  if (saveSuccess) {
+    // Refresh the dashboard list
+    await getDashboards();
   }
 };
 
 // Function to delete selected dashboards with confirmation
 const deleteSelectedDashboards = async () => {
-  const selectedDashboards = dashboards.value.filter(dashboard => dashboard.selected)
-  const selectedCount = dashboards.value.filter(dashboard => dashboard.selected).length
-
-  const selectedDashboardsCuids = selectedDashboards.map(dashboard => dashboard.cuid)
-
-  const selectedDashboardsCuids = selectedDashboards.map(dashboard => dashboard.cuid)
+  const selectedDashboards = dashboards.value.filter(dashboard => dashboard.selected);
+  const selectedCount = selectedDashboards.length;
 
   if (selectedCount === 0) {
-    alert('No dashboards selected for deletion.')
-    return
+    alert('No dashboards selected for deletion.');
+    return;
   }
 
   // Confirm with the user before deletion
-  const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s), this is NOT reversible`)
+  const confirmed = window.confirm(`Are you sure you want to delete ${selectedCount} dashboard(s)? This action is NOT reversible.`);
 
   if (confirmed) {
-    
-    const saveSucccess = await $fetch('/api/dashboard/dashboards', {
+    const selectedDashboardsCuids = selectedDashboards.map(dashboard => dashboard.cuid);
+
+    // Delete the selected dashboards from the backend
+    const saveSuccess = await $fetch('/api/dashboard/dashboards', {
       method: 'DELETE',
-      body: ({ "cuids": selectedDashboardsCuids})
-    })
-    dashboards.value = dashboards.value.filter(dashboard => !dashboard.selected)
-    ownedDashboards.value = ownedDashboards.value.filter(dashboard => !dashboard.selected)
+      body: { cuids: selectedDashboardsCuids },
+    });
+
+    if (saveSuccess) {
+      // Refresh the dashboard list
+      await getDashboards();
+    }
   }
-}
+};
 
 //calling function
 getDashboards()
@@ -136,7 +111,6 @@ getDashboards()
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
                     NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
-                    NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
                   div.mt-2.size-full
                       input(type="checkbox" v-model="dashboard.selected")  
                       // Bind checkbox to 'selected'
@@ -147,7 +121,6 @@ getDashboards()
                   div 
                   button.bg-blue-200.px-2.py-2.rounded.hover_bg-blue-300()
                     NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
-                    NuxtLink(:to="`/dashboard/${dashboard.cuid}`") View
                   div.mt-2.size-full(v-if="mduser.user_role == 'admin'")
                       input(type="checkbox" v-model="dashboard.selected")
                       // Bind checkbox to 'selected'
@@ -155,7 +128,6 @@ getDashboards()
 
         div.mt-8.flex.justify-between
             button.bg-purple-200.px-4.py-2.rounded(@click="addDashboard") Add Dashboard
-                NuxtLink(to="/edit-dashboard/0")
                 NuxtLink(to="/edit-dashboard/0")
             button.bg-red-200.px-4.py-2.rounded(v-if="mduser.user_role == 'admin' || (ownedDashboardsToggle)" @click="deleteSelectedDashboards") Delete Selected
 </template>
