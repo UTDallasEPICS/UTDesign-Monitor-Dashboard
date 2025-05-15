@@ -62,6 +62,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import type { Dashboard, User } from '@/types.d.ts'
+  import {Icon} from '@iconify/vue'
 
   const ownedDashboardsToggle = ref(true)
   const toggle = async () => { 
