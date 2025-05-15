@@ -78,7 +78,6 @@ watch(isAdmin, (newVal, oldVal) => {
     setTimeout(() => window.location.reload(), 100);
   }
 })
-
 //array of current users
 const users = reactive([]) 
 const getUsers = async () => {
@@ -94,51 +93,68 @@ const getUsers = async () => {
     });
   }
 } 
-
-
 //add user
 const addUser = async () => {
-    const newIndex = users.length + 1
     const newUser = {
         name: "",
-        email: "example@example.com",
+        email: "",
         role: "user",
         selected: false
-    }
-
-    users.push(newUser)
-
-//creates user in database 
-
-    const saveUser = await $fetch("/api/user/user", {
+    };
+    // Create the user in the database and get the response
+    const savedUser = await $fetch("/api/user/user", {
         method: 'POST',
-        body: 
-         {email: newUser.email}
-
-    })
-}
-
+        body: { email: newUser.email }
+    });
+    // Assign the returned cuid to the new user object
+    newUser.cuid = savedUser.cuid;
+    // Push the new user to the users array
+    users.push(newUser);
+};
 // role drop down 
 const roleOption = ref([
     {text: 'Admin', value: 'admin'},
     {text: 'User', value: 'user'}
 ])
-
+const saveStatus = ref(""); // Reactive variable to track save status
+const errorMessage = ref(""); // Reactive variable to track error messages
 const UpdateUsers = async () => {
-    for (let i = 0; i < users.length; i++) {
-        const updatedUser = await $fetch("/api/user/user", {
-            method: 'PUT',
-            body: {
-                cuid: users[i].cuid,
-                name: users[i].name,
-                email: users[i].email,
-                user_role: users[i].role
-            }
-        })
-    console.log(updatedUser)
-    }  
-  } 
-
+    // Check for duplicate emails
+    const emailSet = new Set();
+    const duplicateEmails = users.filter(user => {
+        if (emailSet.has(user.email)) {
+            return true; // Duplicate found
+        }
+        emailSet.add(user.email);
+        return false;
+    });
+    if (duplicateEmails.length > 0) {
+        errorMessage.value = `Duplicate email(s) found: ${duplicateEmails.map(user => user.email).join(", ")}`;
+        setTimeout(() => (errorMessage.value = ""), 5000); // Clear the error message after 5 seconds
+        return; // Stop the save operation
+    }
+    try {
+        saveStatus.value = "Saving..."; // Indicate that the save operation is in progress
+        for (let i = 0; i < users.length; i++) {
+            const updatedUser = await $fetch("/api/user/user", {
+                method: 'PUT',
+                body: {
+                    cuid: users[i].cuid,
+                    name: users[i].name,
+                    email: users[i].email,
+                    user_role: users[i].role
+                }
+            });
+            console.log(updatedUser);
+        }
+        saveStatus.value = "Saved successfully!"; // Indicate success
+        setTimeout(() => (saveStatus.value = ""), 3000); // Clear the status after 3 seconds
+    } catch (error) {
+        console.error("Error saving users:", error);
+        saveStatus.value = "Failed to save. Please try again."; // Indicate failure
+        setTimeout(() => (saveStatus.value = ""), 3000); // Clear the status after 3 seconds
+    }
+};
 
 
 // Pranav's code from Function to delete selected dashboards with confirmation---> delete selected users with confirmation
